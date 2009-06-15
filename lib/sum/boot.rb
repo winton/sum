@@ -4,7 +4,7 @@ Application.class_eval do
   set :public, "#{root}/public"
   set :logging, true
   set :static, true
-  set :views, "#{root}/lib/views"
+  set :views, "#{root}/lib/sum/view"
     
   # Set up database and logging
   $db, $log = ActiveWrapper.setup(
@@ -18,4 +18,8 @@ Application.class_eval do
   Dir["#{root}/lib/sum/**/*.rb"].each do |path|
     require path unless path == __FILE__
   end
+  
+  # Gems
+  require 'rubygems'
+  require 'haml'
 end

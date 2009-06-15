@@ -1,5 +1,5 @@
 Application.class_eval do
   get '/' do
-    "#{self.class.environment}"
+    haml :front
   end
 end
