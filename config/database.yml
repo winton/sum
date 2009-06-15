@@ -1,0 +1,10 @@
+development: &dev
+  adapter: mysql
+  database: sum
+  username: root
+  password:
+  host: localhost
+production:
+  <<: *dev
+test:
+  <<: *dev

@@ -1,0 +1,7 @@
+.DS_Store
+*.gem
+coverage
+log
+pkg
+tmp
+vendor

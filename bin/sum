@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+$:.push File.expand_path("#{File.dirname(__FILE__)}/../lib")
+require 'sum'
+
+Application.class_eval do
+  set :environment, ENV['RACK_ENV'] || :production
+end
+
+Application.run!
