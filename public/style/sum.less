@@ -2,6 +2,10 @@ a {
   color: #E16817;
 }
 
+a:hover {
+  color: #AA0000;
+}
+
 body {
   background: #F3F3F3;
   margin: 0px;
@@ -21,43 +25,54 @@ body, body div, input {
   padding: 6px 25px;
   width: 408px;
   
-  .field {
-    color: #07578F;
-    font-size: 16px;
-    margin-top: 20px;
-    text-align: center;
+  > div {
+    background-color: #fff;
     
-    label {
-      cursor: pointer;
-    }
-    
-    input {
-      background-image: url(/image/field_off.png);
-      border: 0px;
-      display: block;
-      height: 19px;
-      padding: 3px;
+    .field {
+      color: #07578F;
+      font-size: 16px;
+      margin-bottom: 20px;
       text-align: center;
-      width: 394px;
+
+      label {
+        cursor: pointer;
+      }
+
+      input {
+        background-image: url(/image/field_off.png);
+        border: 0px;
+        display: block;
+        height: 19px;
+        padding: 3px;
+        text-align: center;
+        width: 394px;
+      }
+      
+      .validation {
+        color: #AA0000;
+      }
     }
-  }
-  
-  .number {
-    clear: both;
-    line-height: 25px;
-    margin-bottom: 7px;
-    overflow: auto;
-  }
-  
-  .submit {
-    float: right;
-    height: 45px;
+
+    .number {
+      clear: both;
+      line-height: 25px;
+      margin-bottom: 7px;
+      overflow: auto;
+    }
     
-    input {
-      background: transparent;
+    .spacer {
+      margin-top: 25px;
+    }
+
+    .submit {
+      float: right;
       height: 30px;
-      margin-top: 15px;
-      width: 88px;
+
+      input {
+        background: transparent;
+        height: 30px;
+        width: 88px;
+      }
     }
   }
 }

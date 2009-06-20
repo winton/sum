@@ -17,21 +17,5 @@
     Every morning at 5am, you will receive an email with
     %a{ :href => '#' } budgeting metrics
     for the day.
-.field
-  %label{ :for => 'user_email' }
-    What is your email address?
-  %input{ :id => 'user_email', :name => 'user[email]', :type => 'text' }
-.field
-  %label{ :for => 'user_income' }
-    How much money do you receive each month?
-  %input{ :id => 'user_income', :name => 'user[income]', :type => 'text' }
-.field
-  %label{ :for => 'user_bills' }
-    How much do you spend on bills each month?
-  %input{ :id => 'user_bills', :name => 'user[bills]', :type => 'text' }
-.field
-  %label{ :for => 'user_savings' }
-    How much do you want to save each month?
-  %input{ :id => 'user_savings', :name => 'user[savings]', :type => 'text' }
-.submit
-  %input{ :src => '/image/submit.png', :type => 'image' }
+.spacer
+= partial :form

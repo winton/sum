@@ -2,7 +2,7 @@
 %html
   %head
     %title Sum - Simple Budgeting
-    %link{ :href => '/image/favicon.png', :rel => 'shortcut icon', :type => 'image/png' }
+    %link{ :href => "/image/favicon.png", :rel => "shortcut icon", :type => "image/png" }
     %link{ :href => "/style/print.css", :media => "print", :rel => "stylesheet", :type => "text/css" }
     %link{ :href => "/style/screen.css", :media => "screen, projection", :rel => "stylesheet", :type => "text/css" }
     %link{ :href => "/style/sum.css", :media => "screen, projection", :rel => "stylesheet", :type => "text/css" }
@@ -14,6 +14,6 @@
     #top
       %img{ :src => '/image/top.png' }
     #body
-      = yield
+      %div= yield
     #bot
       %img{ :src => '/image/bot.png' }

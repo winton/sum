@@ -1,13 +1,17 @@
 a { color: #E16817; }
 body { margin: 0px; background: #F3F3F3; }
 body, body div, input { font-weight: bold; font-size: 14px; font-family: 'Helvetica Neue', helvetica, arial, sans-serif; color: #777D7F; }
+a:hover { color: #AA0000; }
 #ribbon { position: absolute; height: 128px; right: 0px; background-image: url(/image/ribbon.png); width: 128px; top: 0px; }
 #bot { margin-bottom: 20px; text-align: center; height: 19px; }
-#body .submit input { background: transparent; margin-top: 15px; height: 30px; width: 88px; }
-#body .submit { height: 45px; float: right; }
-#body .number { margin-bottom: 7px; overflow: auto; clear: both; line-height: 25px; }
-#body .field label { cursor: pointer; }
-#body .field input { border: 0px; padding: 3px; display: block; text-align: center; height: 19px; background-image: url(/image/field_off.png); width: 394px; }
-#body .field { font-size: 16px; margin-top: 20px; color: #07578F; text-align: center; }
+#body > div .submit input { background: transparent; height: 30px; width: 88px; }
+#body > div .submit { height: 30px; float: right; }
+#body > div .number { margin-bottom: 7px; overflow: auto; clear: both; line-height: 25px; }
+#body > div .field label { cursor: pointer; }
+#body > div .field .validation { color: #AA0000; }
+#body > div .field input { border: 0px; padding: 3px; display: block; text-align: center; height: 19px; background-image: url(/image/field_off.png); width: 394px; }
+#body > div .field { margin-bottom: 20px; font-size: 16px; color: #07578F; text-align: center; }
+#body > div .spacer { margin-top: 25px; }
+#body > div { background-color: #fff; }
 #body { overflow: auto; margin: 0 auto; padding: 6px 25px; background-image: url(/image/bg.png); width: 408px; }
 #top { text-align: center; height: 120px; }

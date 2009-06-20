@@ -1,0 +1,11 @@
+- if valid?
+  Thanks!
+
+- else
+  %form{ :action => '/new', :method => 'post' }
+    = field :email, "What is your email address?"
+    = field :income, "How much money do you receive each month?"
+    = field :bills, "How much do you spend on bills each month?"
+    = field :savings, "How much do you want to save each month?"
+    .submit
+      %input{ :src => '/image/submit.png', :type => 'image' }

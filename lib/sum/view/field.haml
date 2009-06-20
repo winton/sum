@@ -1,0 +1,10 @@
+- if valid?(attribute)
+  .field
+    %label{ :for => "user_#{attribute}" }
+      = question
+    - if errors_on(attribute)
+      .validation
+        = errors_on(attribute)
+    %input{ :id => "user_#{attribute}", :name => "user[#{attribute}]", :type => "text" }
+- else
+  %input{ :name => "user[#{attribute}]", :type => "hidden", :value => @user.send(attribute) }
