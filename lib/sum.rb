@@ -9,5 +9,5 @@ class Application < Sinatra::Base
 end
 
 Dir["#{File.dirname(__FILE__)}/sum/**/*.rb"].each do |path|
-  require path unless path.include?("/boot.rb")
+  require path
 end

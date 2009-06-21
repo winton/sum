@@ -2,6 +2,7 @@ Application.class_eval do
   
   enable :raise_errors
   
+  set :environment, $TESTING ? :test : environment
   set :root, File.expand_path("#{File.dirname(__FILE__)}/../../")
   set :public, "#{root}/public"
   set :logging, true
@@ -12,7 +13,7 @@ Application.class_eval do
   $db, $log = ActiveWrapper.setup(
     :base => root,
     :env => environment,
-    :stdout => true
+    :stdout => environment != :test
   )
   $db.establish_connection
   

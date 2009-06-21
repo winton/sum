@@ -2,7 +2,6 @@
 
 $:.push File.expand_path("#{File.dirname(__FILE__)}/../lib")
 require 'sum'
-require 'sum/boot'
 
 Application.class_eval do
   set :environment, ENV['RACK_ENV'] || :production

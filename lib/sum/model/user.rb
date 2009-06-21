@@ -13,6 +13,11 @@ class User < ActiveRecord::Base
   
   serialize :recent_transactions
   
+  validates_format_of(
+    :email,
+    :with => /^[_a-z0-9\+\.\-]+\@[_a-z0-9\-]+\.[_a-z0-9\.\-]+$/i,
+    :unless => lambda { |r| r.email.blank? }
+  )
   validates_numericality_of :bills, :income, :savings
   validates_presence_of :email
   

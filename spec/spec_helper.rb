@@ -4,13 +4,10 @@ $:.unshift File.expand_path("#{SPEC}/../lib")
 
 require 'sum'
 require 'pp'
+require 'spec/interop/test'
+require 'rack/test'
 
 Spec::Runner.configure do |config|
-  $db, $log = ActiveWrapper.setup(
-    :base => File.expand_path("#{SPEC}/../"),
-    :env => 'test'
-  )
-  $db.establish_connection
   $db.migrate_reset
 end
 

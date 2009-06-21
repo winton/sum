@@ -21,8 +21,51 @@ describe User do
       @user.spent_this_month.should == 0.00
       @user.temporary_spending_cut.should == 0.00
       @user.timezone_offset.should == -25200
-      @user.reset_at.to_s.should == 1.month.from_now.utc.to_s
-      @user.send_at.to_s.should == 1.day.from_now.utc.to_s
+      @user.send_at.to_s.should == (@user.send(:next_5am, Time.now) - @user.timezone_offset).to_s
+      @user.reset_at.to_s.should == (@user.send_at + 1.month).to_s
+    end
+    
+    it "should make the spending goal equal to income minus bills minus savings" do
+      @user.spending_goal.should == @user.income - @user.bills - @user.savings
+    end
+    
+    it "should make the savings goal equal to savings" do
+      @user.savings_goal.should == @user.savings
+    end
+    
+    it "should send email at next 5am" do
+      send_at = @user.send_at + @user.timezone_offset
+      now = Time.now.utc + @user.timezone_offset
+      [ now, now + 1.day ].include?(send_at.day) == true
+      send_at.hour.should == 5
+      send_at.min.should == 0
+      send_at.should > now
+    end
+    
+    it "should reset balances one month from next 5am" do
+      @user.reset_at.should == @user.send_at + 1.month
+    end
+  end
+  
+  describe "invalid submission" do
+  
+    before(:each) do
+      @user = User.create(
+        :email => "",
+        :bills => "",
+        :income => "test",
+        :savings => "0"
+      )
+    end
+  
+    it "should create errors on the proper attributes" do
+      @user.errors.on(:email).should == "can't be blank"
+      @user.errors.on(:bills).should == 'is not a number'
+      @user.errors.on(:income).should == 'is not a number'
+      @user.errors.on(:savings).nil?.should == true
+      @user.email = 'test'
+      @user.valid?
+      @user.errors.on(:email).should == 'is invalid'
     end
   end
 end
