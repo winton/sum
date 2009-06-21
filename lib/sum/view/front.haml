@@ -8,7 +8,9 @@
   .span-1
     %img{ :src => 'image/2.png' }
   .span-9
-    When you use your credit card or the ATM, send an email to
+    When you use your credit card or the ATM, send an
+    %a{ :href => 'image/screenshot_send.png', :rel => 'facebox' } email
+    to
     %a{ :href => "sum@sumapp.com" } sum@sumapp.com
     with the dollar amount.
 
@@ -16,9 +18,9 @@
   .span-1
     %img{ :src => 'image/3.png' }
   .span-9
-    Every morning at 5am, you will receive an email with
-    %a{ :href => '#' } budgeting metrics
-    for the day.
+    Every morning at 5am, you will receive an
+    %a{ :href => 'image/screenshot_send.png', :rel => 'facebox' } email
+    with budgeting metrics for the day.
 
 .spacer
 = partial :form
