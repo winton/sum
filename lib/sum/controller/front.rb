@@ -5,6 +5,7 @@ Application.class_eval do
   end
   
   post '/new' do
+    @title = 'New budget'
     @user = User.find_by_email(params[:user][:email])
     if @user
       @user.update_attributes(params[:user])

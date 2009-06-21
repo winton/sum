@@ -1,3 +1,4 @@
+.h1 { font-weight: bold; font-size: 16px; color: #07578F; text-align: center; padding-bottom: 8px; }
 a { color: #E16817; }
 body { margin: 0px; background: #F3F3F3; }
 body, body div, input { font-weight: bold; font-size: 14px; font-family: 'Helvetica Neue', helvetica, arial, sans-serif; color: #777D7F; }
@@ -6,15 +7,16 @@ a:hover { color: #AA0000; }
 #bot { margin-bottom: 20px; text-align: center; height: 19px; }
 #body > div p.last { margin: 0px; }
 #body > div .submit input { background: transparent; outline: none; height: 30px; width: 88px; }
-#body > div .submit { height: 30px; float: right; }
+#body > div .submit { height: 30px; text-align: right; }
 #body > div .number { margin-bottom: 7px; overflow: auto; clear: both; line-height: 25px; }
-#body > div .field label { cursor: pointer; }
+#body > div .field label { font-size: 16px; font-weight: bold; cursor: pointer; color: #07578F; text-align: center; padding-bottom: 8px; }
 #body > div .field .validation { color: #AA0000; }
 #body > div .field input:focus { background-image: url(/image/field_on.png); }
-#body > div .field input { border: 0px; padding: 3px; display: block; text-align: center; height: 19px; background-image: url(/image/field_off.png); width: 394px; }
-#body > div .field { margin-bottom: 20px; font-size: 16px; color: #07578F; text-align: center; }
+#body > div .field input { background-color: #F3F3F3; border: 0px; padding: 3px; display: block; text-align: center; height: 19px; background-image: url(/image/field_off.png); width: 394px; }
+#body > div .field { margin-bottom: 20px; text-align: center; }
 #body > div .spacer { margin-top: 25px; }
 #body > div { background-color: #fff; }
-#body { overflow: auto; margin: 0 auto; padding: 6px 25px; background-image: url(/image/bg.png); width: 408px; }
+#body { overflow: auto; margin: 0 auto; padding: 6px 29px; background-image: url(/image/bg.png); width: 400px; }
+h1 { font-size: 16px; font-weight: bold; color: #07578F; text-align: center; padding-bottom: 8px; }
 #top a { outline: none; }
 #top { text-align: center; height: 120px; }

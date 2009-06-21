@@ -1,18 +1,38 @@
+/* colors */
+
+@background: #F3F3F3;
+@link: #E16817;
+@link_hover: #AA0000;
+@text: #777D7F;
+@title: #07578F;
+
+/* mixins */
+
+.h1 {
+  color: @title;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+/* styles */
+
 a {
-  color: #E16817;
+  color: @link;
 }
 
 a:hover {
-  color: #AA0000;
+  color: @link_hover;
 }
 
 body {
-  background: #F3F3F3;
+  background: @background;
   margin: 0px;
 }
 
 body, body div, input {
-  color: #777D7F;
+  color: @text;
   font-family: 'Helvetica Neue', helvetica, arial, sans-serif;
   font-size: 14px;
   font-weight: bold;
@@ -22,23 +42,23 @@ body, body div, input {
   background-image: url(/image/bg.png);
   margin: 0 auto;
   overflow: auto;
-  padding: 6px 25px;
-  width: 408px;
+  padding: 6px 29px;
+  width: 400px;
   
   > div {
     background-color: #fff;
     
     .field {
-      color: #07578F;
-      font-size: 16px;
       margin-bottom: 20px;
       text-align: center;
 
       label {
+        .h1;
         cursor: pointer;
       }
 
       input {
+        background-color: @background;
         background-image: url(/image/field_off.png);
         border: 0px;
         display: block;
@@ -53,7 +73,7 @@ body, body div, input {
       }
       
       .validation {
-        color: #AA0000;
+        color: @link_hover;
       }
     }
 
@@ -73,7 +93,7 @@ body, body div, input {
     }
 
     .submit {
-      float: right;
+      text-align: right;
       height: 30px;
 
       input {
@@ -90,6 +110,10 @@ body, body div, input {
   height: 19px;
   margin-bottom: 20px;
   text-align: center;
+}
+
+h1 {
+  .h1;
 }
 
 #ribbon {
