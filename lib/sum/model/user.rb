@@ -4,58 +4,67 @@ class User < ActiveRecord::Base
   attr_accessible :bills
   attr_accessible :income
   attr_accessible :savings
+  attr_accessible :timezone_offset
   
-  before_create :set_savings_goal
-  before_create :set_spending_goal
-  before_create :set_reset_at
-  before_create :set_send_at
+  before_create :set_timestamps
+  
+  before_save :set_savings_goal
+  before_save :set_spending_goal
+  
+  serialize :recent_transactions
   
   validates_numericality_of :bills, :income, :savings
   validates_presence_of :email
   
-  def bills
-    read_attribute :bills
+  [ :bills, :income, :savings ].each do |attribute|
+    define_method(attribute) do
+      read_attribute attribute
+    end
+    define_method("#{attribute}=") do |amount|
+      write_attribute attribute, to_number(amount)
+    end
   end
-  
-  def bills=(amount)
-    write_attribute :bills, to_number(amount)
-  end
-  
-  def income=(amount)
-    write_attribute :income, to_number(amount)
-  end
-  
-  def income
-    read_attribute :income
-  end
-  
-  def savings=(amount)
-    write_attribute :savings, to_number(amount)
-  end
-  
-  def savings
-    read_attribute :savings
-  end
-  
+
   private
   
+  def next_5am(time)
+    time = to_local(time)
+    time = DateTime.strptime(
+      time.strftime("%m/%d/%Y 05:00 %p %Z"),
+      "%m/%d/%Y %I:%M %p %Z"
+    )
+    time = time.to_time
+    if to_local(Time.now) > time
+      time + 1.day
+    else
+      time
+    end
+  end
+  
   def set_savings_goal
-    self.savings_goal = self.savings
+    if self.savings
+      self.savings_goal = self.savings
+    end
   end
   
   def set_spending_goal
-    self.spending_goal = self.income - self.bills - self.savings
+    if self.income && self.bills && self.savings
+      self.spending_goal = self.income - self.bills - self.savings
+    end
   end
   
-  def set_reset_at
-    self.reset_at = 1.month.from_now
+  def set_timestamps
+    self.send_at = next_5am(Time.now) - self.timezone_offset
+    self.reset_at = self.send_at + 1.month
   end
   
-  def set_send_at
-    self.send_at = 1.day.from_now
+  def to_local(time)
+    return time unless self.timezone_offset
+    time.utc + self.timezone_offset
   end
   
   def to_number(string)
-    string.gsub(/[^\d\.]/, '').to_f
+    string = string.gsub(/[^\d\.]/, '')
+    string.blank? ? string : string.to_f
   end
 end

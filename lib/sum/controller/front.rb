@@ -5,7 +5,12 @@ Application.class_eval do
   end
   
   post '/new' do
-    @user = User.create(params[:user])
+    @user = User.find_by_email(params[:user][:email])
+    if @user
+      @user.update_attributes(params[:user])
+    else
+      @user = User.create(params[:user])
+    end
     haml :new
   end
 end

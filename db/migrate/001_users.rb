@@ -7,8 +7,10 @@ class Users < ActiveRecord::Migration
       t.column :spending_goal, :decimal, :precision => 10, :scale => 2, :default => 0
       t.column :spent_this_month, :decimal, :precision => 10, :scale => 2, :default => 0
       t.column :temporary_spending_cut, :decimal, :precision => 10, :scale => 2, :default => 0
+      t.column :timezone_offset, :integer
       t.column :reset_at, :datetime
       t.column :send_at, :datetime
+      t.column :sent_at, :datetime
       t.timestamps
     end
   end

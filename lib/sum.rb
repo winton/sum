@@ -8,4 +8,6 @@ require 'sinatra/base'
 class Application < Sinatra::Base
 end
 
-require "#{File.dirname(__FILE__)}/sum/boot"
+Dir["#{File.dirname(__FILE__)}/sum/**/*.rb"].each do |path|
+  require path unless path.include?("/boot.rb")
+end

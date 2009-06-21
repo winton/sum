@@ -1,1 +1,13 @@
-= partial :form
+- if valid?
+  %p
+    Success! Soon you will receive an email with today's budget.
+  %p
+    When you spend money, don't for get to email
+    %a{ :href => "sum@sumapp.com" } sum@sumapp.com
+    with the amount you spent.
+  %p.last
+    To update the numbers used to calculate your budget, use the same form at
+    <a href="http://sumapp.com">sumapp.com</a>.
+
+- else
+  = partial :form

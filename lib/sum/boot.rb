@@ -16,15 +16,9 @@ Application.class_eval do
   )
   $db.establish_connection
   
-  # Require controllers and models
-  Dir["#{root}/lib/sum/**/*.rb"].each do |path|
-    require path unless path == __FILE__
-  end
-  
   # Gems
   require 'rubygems'
   require 'haml'
-  require 'active_support/core_ext/numeric/time'
   
   # Helpers
   helpers do
