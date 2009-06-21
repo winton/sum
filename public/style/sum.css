@@ -10,6 +10,7 @@ a:hover { color: #AA0000; }
 #body > div .number { margin-bottom: 7px; overflow: auto; clear: both; line-height: 25px; }
 #body > div .field label { cursor: pointer; }
 #body > div .field .validation { color: #AA0000; }
+#body > div .field input:focus { background-image: url(/image/field_on.png); }
 #body > div .field input { border: 0px; padding: 3px; display: block; text-align: center; height: 19px; background-image: url(/image/field_off.png); width: 394px; }
 #body > div .field { margin-bottom: 20px; font-size: 16px; color: #07578F; text-align: center; }
 #body > div .spacer { margin-top: 25px; }
