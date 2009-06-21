@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
 describe User do
   describe "valid submission" do
@@ -66,6 +66,26 @@ describe User do
       @user.email = 'test'
       @user.valid?
       @user.errors.on(:email).should == 'is invalid'
+    end
+  end
+  
+  describe "hacker submission" do
+    
+    before(:each) do
+      @user = User.create(
+        :email => "test@test.com",
+        :bills => "1000.02",
+        :income => "2500.54",
+        :savings => "500.02",
+        :timezone_offset => "-25200",
+        :temporary_spending_cut => 5000,
+        :send_at => Time.now.utc
+      )
+    end
+    
+    it "shouldn't assign protected attributes" do
+      @user.temporary_spending_cut.should == 0.00
+      @user.send_at.to_s.should == (@user.send(:next_5am, Time.now) - @user.timezone_offset).to_s
     end
   end
 end
