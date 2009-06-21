@@ -1,8 +1,12 @@
 %form{ :action => '/new', :method => 'post' }
+  
   %img{ :style => 'display:none', :src => '/image/field_on.png' }
+  %input{ :id => "timezone_offset", :name => "user[timezone_offset]", :type => "hidden" }
+  
   = field :email, "What is your email address?"
   = field :income, "How much money do you receive each month?"
   = field :bills, "How much do you spend on bills each month?"
   = field :savings, "How much do you want to save each month?"
+  
   .submit
     %input{ :src => '/image/submit.png', :type => 'image' }

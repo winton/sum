@@ -1,6 +1,5 @@
 jQuery(function($) {
   $('form').bind('submit', function() {
-    $('<input name="user[timezone_offset]" type="hidden" value="' + -(new Date()).getTimezoneOffset() * 60 + '" />')
-      .appendTo(this);
+    $('#timezone_offset').attr('value', -(new Date()).getTimezoneOffset() * 60);
   });
 });
