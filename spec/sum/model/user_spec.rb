@@ -81,6 +81,10 @@ describe User do
         :temporary_spending_cut => 5000,
         :send_at => Time.now.utc
       )
+      @user.update_attributes(
+        :temporary_spending_cut => 5000,
+        :send_at => Time.now.utc
+      )
     end
     
     it "shouldn't assign protected attributes" do

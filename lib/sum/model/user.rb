@@ -6,10 +6,9 @@ class User < ActiveRecord::Base
   attr_accessible :savings
   attr_accessible :timezone_offset
   
-  before_create :set_timestamps
-  
-  before_save :set_savings_goal
-  before_save :set_spending_goal
+  before_create :before_create_timestamps
+  before_save :before_save_savings_goal
+  before_save :before_save_spending_goal
   
   serialize :recent_transactions
   
@@ -32,10 +31,27 @@ class User < ActiveRecord::Base
 
   private
   
+  def before_create_timestamps
+    self.reset_at = update_send_at
+    update_reset_at
+  end
+  
+  def before_save_savings_goal
+    if self.savings
+      self.savings_goal = self.savings
+    end
+  end
+  
+  def before_save_spending_goal
+    if self.income && self.bills && self.savings
+      self.spending_goal = self.income - self.bills - self.savings
+    end
+  end
+  
   def next_5am(time)
     time = to_local(time)
     time = DateTime.strptime(
-      time.strftime("%m/%d/%Y 05:00 %p %Z"),
+      time.strftime("%m/%d/%Y 05:00 AM %Z"),
       "%m/%d/%Y %I:%M %p %Z"
     )
     time = time.to_time
@@ -46,23 +62,6 @@ class User < ActiveRecord::Base
     end
   end
   
-  def set_savings_goal
-    if self.savings
-      self.savings_goal = self.savings
-    end
-  end
-  
-  def set_spending_goal
-    if self.income && self.bills && self.savings
-      self.spending_goal = self.income - self.bills - self.savings
-    end
-  end
-  
-  def set_timestamps
-    self.send_at = next_5am(Time.now) - self.timezone_offset
-    self.reset_at = self.send_at + 1.month
-  end
-  
   def to_local(time)
     return time unless self.timezone_offset
     time.utc + self.timezone_offset
@@ -71,5 +70,13 @@ class User < ActiveRecord::Base
   def to_number(string)
     string = string.gsub(/[^\d\.]/, '')
     string.blank? ? string : string.to_f
+  end
+  
+  def update_reset_at
+    self.reset_at = self.reset_at + 1.month
+  end
+  
+  def update_send_at
+    self.send_at = next_5am(Time.now) - self.timezone_offset
   end
 end
