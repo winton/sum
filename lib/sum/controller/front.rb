@@ -5,9 +5,9 @@ Application.class_eval do
   end
   
   post '/new' do
-    @title = 'New budget'
-    @user = User.find_by_email(params[:user][:email])
-    if @user
+    @title = 'New budget - '
+    @title += valid? ? 'Success!' : 'Fix mistakes'
+    if @user = User.find_by_email(params[:user][:email])
       @user.update_attributes(params[:user])
     else
       @user = User.create(params[:user])
