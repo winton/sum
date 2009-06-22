@@ -1,5 +1,7 @@
 .DS_Store
 *.gem
+config/database.yml
+config/mail.yml
 coverage
 log
 pkg

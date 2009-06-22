@@ -10,7 +10,7 @@ Application.class_eval do
   set :views, "#{root}/lib/sum/view"
     
   # Set up database and logging
-  $db, $log = ActiveWrapper.setup(
+  $db, $log, $mail = ActiveWrapper.setup(
     :base => root,
     :env => environment,
     :stdout => environment != :test

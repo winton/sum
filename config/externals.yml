@@ -1,6 +1,9 @@
 active_wrapper:
   repo: git@github.com:winton/active_wrapper.git
   path: vendor
+fetcher:
+  repo: git@github.com:winton/fetcher.git
+  path: vendor
 sinatra:
   repo: git://github.com/sinatra/sinatra.git
   path: vendor

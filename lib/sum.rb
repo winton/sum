@@ -3,6 +3,7 @@ Dir["#{File.dirname(__FILE__)}/../vendor/*/lib"].each do |path|
 end
 
 require 'active_wrapper'
+require 'fetcher'
 require 'sinatra/base'
 
 class Application < Sinatra::Base

@@ -1,0 +1,32 @@
+development:
+  imap:
+    password: password
+    port: 993
+    server: imap.gmail.com
+    ssl: true
+    use_login: true
+    username: test@sumapp.com
+  smtp:
+    address: smtp.gmail.com
+    authentication: :plain
+    domain: sumapp.com
+    password: 
+    port: 587
+    enable_starttls_auto: true
+    user_name: test@sumapp.com
+production:
+  imap:
+    password: password
+    port: 993
+    server: imap.gmail.com
+    ssl: true
+    use_login: true
+    username: sum@sumapp.com
+  smtp:
+    address: smtp.gmail.com
+    authentication: :plain
+    domain: sumapp.com
+    password: 
+    port: 587
+    enable_starttls_auto: true
+    user_name: sum@sumapp.com
