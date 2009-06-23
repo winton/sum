@@ -8,7 +8,16 @@ require 'spec/interop/test'
 require 'rack/test'
 
 Spec::Runner.configure do |config|
-  $db.migrate_reset
+end
+
+def create_valid_user
+  User.create(
+    :email => "test@test.com",
+    :bills => "1000.02",
+    :income => "2500.54",
+    :savings => "500.02",
+    :timezone_offset => "-25200"
+  )
 end
 
 # For use with rspec textmate bundle
@@ -16,4 +25,17 @@ def debug(object)
   puts "<pre>"
   puts object.pretty_inspect.gsub('<', '&lt;').gsub('>', '&gt;')
   puts "</pre>"
+end
+
+def generate_email(options={})
+<<EMAIL
+Delivered-To: test@sumapp.com
+Return-Path: <test@test.com>
+From: Winton Welsh <test@test.com>
+To: test@sumapp.com
+Subject: #{options[:subject]}
+
+#{options[:body]}
+
+EMAIL
 end

@@ -3,14 +3,8 @@ require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 describe User do
   describe "valid submission" do
   
-    before(:each) do
-      @user = User.create(
-        :email => "test@test.com",
-        :bills => "1000.02",
-        :income => "2500.54",
-        :savings => "500.02",
-        :timezone_offset => "-25200"
-      )
+    before(:all) do
+      @user = create_valid_user
     end
   
     it "should populate record attributes properly" do

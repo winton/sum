@@ -1,6 +1,6 @@
 %form{ :action => '/new', :method => 'post' }
   
-  %img{ :style => 'display:none', :src => '/image/field_on.png' }
+  %img{ :src => '/image/field_on.png', :style => 'display:none' }
   %input{ :id => "timezone_offset", :name => "user[timezone_offset]", :type => "hidden" }
   
   = field :savings, "How much do you want to save each month?"

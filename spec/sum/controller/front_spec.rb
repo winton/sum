@@ -9,7 +9,7 @@ describe 'Front Controller' do
   
   describe 'get /' do
     
-    before(:each) do
+    before(:all) do
       get '/'
     end
     
@@ -29,7 +29,7 @@ describe 'Front Controller' do
   describe 'post /new' do
     describe 'valid' do
       
-      before(:each) do
+      before(:all) do
         post '/new',
           "user[email]" => "test@test.com",
           "user[bills]" => "1000.02",
@@ -53,7 +53,7 @@ describe 'Front Controller' do
     
     describe 'invalid' do
       
-      before(:each) do
+      before(:all) do
         post '/new',
           "user[email]" => "",
           "user[bills]" => "",

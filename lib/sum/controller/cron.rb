@@ -1,16 +1,14 @@
 Application.class_eval do
   
-  get '/cron' do
-    path = "#{self.class.root}/config/mail.yml"
-    if File.exists?(path)
-      config = YAML::load(File.open(path))
-      config = config[self.class.environment.to_s]['imap'].to_options
-      default = {
-        :type => :imap,
-        :receiver => IncomingMail
-      }
-      Fetcher.create(default.merge(config)).fetch
-    end
-    ''
+  get '/receive_mail' do
+    default = {
+      :receiver => IncomingMail,
+      :type => :imap
+    }
+    config = default.merge($mail.config[:imap])
+    Fetcher.create(config).fetch
+  end
+  
+  get '/send_mail' do
   end
 end

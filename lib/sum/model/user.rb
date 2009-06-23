@@ -17,7 +17,12 @@ class User < ActiveRecord::Base
     :with => /^[_a-z0-9\+\.\-]+\@[_a-z0-9\-]+\.[_a-z0-9\.\-]+$/i,
     :unless => lambda { |r| r.email.blank? }
   )
-  validates_numericality_of :bills, :income, :savings
+  validates_numericality_of(
+    :bills,
+    :income,
+    :savings,
+    :unless => lambda { |r| r.bills.nil? && r.income.nil? && r.savings.nil? }
+  )
   validates_presence_of :email
   
   [ :bills, :income, :savings ].each do |attribute|
