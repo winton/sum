@@ -39,6 +39,12 @@ describe User do
     it "should reset balances one month from next 5am" do
       @user.reset_at.should == @user.send_at + 1.month
     end
+    
+    it "should only save the last ten transactions" do
+      @user.recent_transactions = Array.new(11)
+      @user.save
+      @user.recent_transactions.length.should == 10
+    end
   end
   
   describe "invalid submission" do

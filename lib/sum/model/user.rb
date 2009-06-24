@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   attr_accessible :timezone_offset
   
   before_create :before_create_timestamps
+  before_save :before_save_recent_transactions
   before_save :before_save_savings_goal
   before_save :before_save_spending_goal
   
@@ -39,6 +40,12 @@ class User < ActiveRecord::Base
   def before_create_timestamps
     self.reset_at = update_send_at
     update_reset_at
+  end
+  
+  def before_save_recent_transactions
+    if self.recent_transactions.respond_to?(:index)
+      self.recent_transactions = self.recent_transactions[0..9]
+    end
   end
   
   def before_save_savings_goal

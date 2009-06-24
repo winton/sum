@@ -30,12 +30,19 @@ end
 def generate_email(options={})
 <<EMAIL
 Delivered-To: test@sumapp.com
-Return-Path: <test@test.com>
-From: Winton Welsh <test@test.com>
+Return-Path: <#{options[:from] || 'test@test.com'}>
+From: Winton Welsh <#{options[:from] || 'test@test.com'}>
 To: test@sumapp.com
-Subject: #{options[:subject]}
+Subject: #{options[:subject] || ''}
 
-#{options[:body]}
+#{options[:body] || ''}
 
 EMAIL
+end
+
+def migrate_reset
+  orig_stdout = $stdout
+  $stdout = File.new('/dev/null', 'w')
+  $db.migrate_reset
+  $stdout = orig_stdout
 end
