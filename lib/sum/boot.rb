@@ -1,7 +1,9 @@
+require "#{File.dirname(__FILE__)}/model/incoming_mail"
+
 Application.class_eval do
   
+  # Sinatra
   enable :raise_errors
-  
   set :environment, $TESTING ? :test : environment
   set :root, File.expand_path("#{File.dirname(__FILE__)}/../../")
   set :public, "#{root}/public"
@@ -9,44 +11,19 @@ Application.class_eval do
   set :static, true
   set :views, "#{root}/lib/sum/view"
     
-  # Set up database and logging
+  # Database, logging, and email
   $db, $log, $mail = ActiveWrapper.setup(
     :base => root,
     :env => environment,
     :stdout => environment != :test
   )
   $db.establish_connection
+  if $mail.config
+    imap = { :receiver => IncomingMail, :type => :imap }
+    $mail.config[:imap].merge!(imap)
+  end
   
   # Gems
   require 'rubygems'
   require 'haml'
-  
-  # Helpers
-  helpers do
-    def errors_on(attribute)
-      @user && @user.errors.on(attribute)
-    end
-    
-    def field(attribute, question)
-      partial(
-        :field,
-        :locals => {
-          :attribute => attribute,
-          :question => question
-        }
-      )
-    end
-    
-    def partial(name, options={})
-      haml name, options.merge(:layout => false)
-    end
-    
-    def valid?(attribute=nil)
-      if attribute
-        !@user || @user.errors.on(attribute)
-      else
-        @user && @user.valid?
-      end
-    end
-  end
 end

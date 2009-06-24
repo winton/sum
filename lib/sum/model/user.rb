@@ -34,6 +34,35 @@ class User < ActiveRecord::Base
       write_attribute attribute, to_number(amount)
     end
   end
+  
+  def deliver!
+    begin
+      $mail.deliver(
+        :from => 'sum@sumapp.com',
+        :to => self.email,
+        :subject => "Today's budget",
+        :body => erb(:email, :locals => { :user => self })
+      )
+      self.update_attribute(:failures, 0)
+    rescue Exception
+      self.failures.increment!
+    end
+  end
+  
+  def reset!
+    maximum_spending_limit = self.spending_goal + self.savings_goal
+    self.temporary_spending_cut = self.spent_this_month - maximum_spending_limit
+    if self.temporary_spending_cut < 0
+      self.temporary_spending_cut = 0
+    end
+    self.spend_this_month = 0
+    self.update_reset_at
+    self.save
+  end
+  
+  def spending_goal
+    read_attribute(:spending_goal) - self.temporary_spending_cut
+  end
 
   private
   
