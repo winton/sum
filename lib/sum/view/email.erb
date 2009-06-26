@@ -1,39 +1,35 @@
-<% if u.spending_goal_today >= 0 -%>
-You have $<%= u.spending_goal_today %> to spend today.
+<% if u.spending_goal_today >= 0 %>You have $<%= u.spending_goal_today %> to spend today.
 
 Continue to do so for the next <%= u.days_left %> days to meet your savings goal of $<%= u.savings_goal %>.
-<% elsif u.potential_savings > 0 -%>
-You should not spend any money today if you want to continue to save $<%= u.potential_savings %> for the month.
+<% elsif u.potential_savings > 0 %>You should not spend any money today if you want to continue to save $<%= u.potential_savings %> for the month.
 
-If you must spend money, you can afford to spend $<%= u.spending_goal_today_savings %> per day for the next <%= u.days_left %> days. If you do so, you will not have any savings for the month.
-<% else -%>
-You need to earn $<%= u.spending_goal_today * -1 %> today.
+If you must spend money, you can afford to spend $<%= u.spending_goal_today_savings %> per day for the next <%= u.days_left %> days before going into debt.
+<% else %>You need to earn $<%= u.spending_goal_today * -1 %> today.
 
 Continue to do so for the next <%= u.days_left %> days to avoid going into debt.
 
 If you do not, Sum will temporarily decrease your spending money for next month to account for the debt.
-<% end -%>
-
-<% if u.surplus > 0 -%>
+<% end %>
+<% if u.surplus > 0 %>
 You have saved $<%= surplus %> more than your savings goal!
-<% elsif u.surplus < 0 && u.potential_savings == 0 -%>
+<% elsif u.surplus < 0 && u.potential_savings == 0 %>
 You have spent your entire savings goal.
-<% elsif u.surplus < 0 && u.potential_savings > 0 -%>
+<% elsif u.surplus < 0 && u.potential_savings > 0 %>
 You have spent into your savings goal by <%= surplus * -1 %>.
-<% elsif u.surplus < 0 && u.potential_savings < 0 -%>
+<% elsif u.surplus < 0 && u.potential_savings < 0 %>
 You have spent your entire savings goal, plus an additional $<%= (u.potential_savings) * -1  %> (debt).
-<% end -%>
+<% end %>
 
 ------
 
 Fiscal month: <%= u.beginning_of_month.strftime("%m/%d/%y") %> to <%= u.reset_at.strftime("%m/%d/%y") %>
-
+<% if u.recent_transactions %>
 Last <%= u.recent_transactions.length %> transactions:
 
-<% u.recent_transactions.each do |amount| -%>
+<% u.recent_transactions.each do |amount| %>
   <%= amount %>
-<% end -%>
-
+<% end %>
+<% end %>
 ------
 
 Every time you spend money or use the ATM, don't forget to email the dollar amount to sum@sumapp.com.
