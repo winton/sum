@@ -35,18 +35,45 @@ class User < ActiveRecord::Base
     end
   end
   
+  def beginning_of_month
+    self.reset_at - 1.month
+  end
+  
+  def days_in_month # Days in this fiscal month
+    self.reset_at - self.beginning_of_month
+  end
+  
+  def days_left # Days left in this fiscal month
+    self.reset_at.to_date - Time.now.to_date
+  end
+  
+  def days_passed # Days passed in this fiscal month
+    Time.now.to_date - self.beginning_of_month.to_date
+  end
+  
   def deliver!
     begin
       $mail.deliver(
         :from => 'sum@sumapp.com',
         :to => self.email,
         :subject => "Today's budget",
-        :body => erb(:email, :locals => { :user => self })
+        :body => erb(:email, :locals => { :u => self })
       )
-      self.update_attribute(:failures, 0)
+      self.failures = 0
+      self.update_send_at
+      self.sent_at = Time.now.utc
+      self.save
     rescue Exception
       self.failures.increment!
     end
+  end
+  
+  def money_left # Money left to spend in this fiscal month
+    self.spending_goal - self.spent_this_month
+  end
+  
+  def potential_savings # Money that will be saved if daily spending goal is met
+    (self.savings_per_day * self.days_left) + self.surpus
   end
   
   def reset!
@@ -55,13 +82,37 @@ class User < ActiveRecord::Base
     if self.temporary_spending_cut < 0
       self.temporary_spending_cut = 0
     end
-    self.spend_this_month = 0
+    self.spent_this_month = 0
     self.update_reset_at
     self.save
   end
   
+  def savings_per_day # How much the user is saving per day (ideally)
+    self.savings_goal / self.days_in_month
+  end
+  
+  def should_have_spent # How much the user should have spent in this period
+    self.spending_per_day * self.days_passed
+  end
+  
   def spending_goal
     read_attribute(:spending_goal) - self.temporary_spending_cut
+  end
+  
+  def spending_goal_today # Today's spending goal
+    self.money_left / self.days_left
+  end
+  
+  def spending_goal_today_savings # Today's spending goal (don't go into debt edition)
+    (self.savings_goal - self.money_left) / self.days_left
+  end
+  
+  def spending_per_day
+    self.spending_goal / self.days_in_month
+  end
+  
+  def surplus
+    self.should_have_spent - self.spent_this_month
   end
 
   private
@@ -118,6 +169,10 @@ class User < ActiveRecord::Base
   end
   
   def update_send_at
-    self.send_at = next_5am(Time.now) - self.timezone_offset
+    if self.send_at
+      self.send_at = self.send_at + 1.day
+    else
+      self.send_at = next_5am(Time.now) - self.timezone_offset
+    end
   end
 end

@@ -15,10 +15,6 @@ Application.class_eval do
       )
     end
     
-    def partial(name, options={})
-      haml name, options.merge(:layout => false)
-    end
-    
     def valid?(attribute=nil)
       if attribute
         !@user || @user.errors.on(attribute)
