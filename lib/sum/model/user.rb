@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
     end
   end
   
-  def beginning_of_month
+  def beginning_of_month # Beginning of fiscal month
     self.reset_at - 1.month
   end
   
@@ -95,7 +95,7 @@ class User < ActiveRecord::Base
     self.spending_per_day * self.days_passed
   end
   
-  def spending_goal
+  def spending_goal # Spending goal for the month
     read_attribute(:spending_goal) - self.temporary_spending_cut
   end
   
@@ -107,11 +107,11 @@ class User < ActiveRecord::Base
     (self.savings_goal - self.money_left) / self.days_left
   end
   
-  def spending_per_day
+  def spending_per_day # How much the user is spending per day (ideally)
     self.spending_goal / self.days_in_month
   end
   
-  def surplus
+  def surplus # How much money currently over or under budget
     self.should_have_spent - self.spent_this_month
   end
 
