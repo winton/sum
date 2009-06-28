@@ -7,8 +7,11 @@ GEM_SPEC = Gem::Specification.new do |s|
   s.homepage = "http://github.com/winton/#{GEM_NAME}"
   s.summary = "Sinatra app that powers SumApp.com, a super simple budgeting system"
   # == CONFIGURE ==
+  s.add_dependency('haml', '=2.0.9')
+  s.add_dependency('sinatra', '=0.9.2')
+  s.add_dependency('winton-fetcher', '=0.1.0')
+  s.add_dependency('winton-active_wrapper', '=0.1.2')
   s.executables << GEM_NAME
-  s.extensions  << "install"
   s.extra_rdoc_files = [ "README.markdown" ]
   s.files = GEM_FILES.to_a
   s.has_rdoc = false

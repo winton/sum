@@ -22,8 +22,4 @@ Application.class_eval do
     imap = { :receiver => IncomingMail, :type => :imap }
     $mail.config[:imap].merge!(imap)
   end
-  
-  # Gems
-  require 'rubygems'
-  require 'haml'
 end
