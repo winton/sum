@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
   before_save :before_save_spending_goal
   
   serialize :recent_transactions
-  serialize :spent_by_date
   
   validates_format_of(
     :email,
