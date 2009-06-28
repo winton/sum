@@ -13,7 +13,7 @@ Application.class_eval do
       user.reset!
     end
     # Send emails
-    conditions = [ 'failures <= 5 AND send_at <= ?', Time.now.utc ]
+    conditions = [ 'send_now = 1 OR (failures <= 5 AND send_at <= ?)', Time.now.utc ]
     users = User.find(:all, :conditions => conditions)
     users.each do |user|
       body = erb(:email, :locals => { :u => user })
@@ -28,7 +28,7 @@ Application.class_eval do
       rescue Exception
         user.increment!(:failures)
       end
-      true
     end
+    true
   end
 end

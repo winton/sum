@@ -5,6 +5,7 @@ class Users < ActiveRecord::Migration
       t.column :failures, :integer, :default => 0
       t.column :recent_transactions, :string, :limit => 1024
       t.column :savings_goal, :decimal, :precision => 10, :scale => 2, :default => 0
+      t.column :send_now, :boolean, :default => false
       t.column :spending_goal, :decimal, :precision => 10, :scale => 2, :default => 0
       t.column :spent_this_month, :decimal, :precision => 10, :scale => 2, :default => 0
       t.column :temporary_spending_cut, :decimal, :precision => 10, :scale => 2, :default => 0

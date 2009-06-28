@@ -6,7 +6,12 @@ class IncomingMail < ActionMailer::Base
     return if numbers.empty?
     numbers.collect! do |number|
       operator, number = number
-      (operator == '+' ? 1 : -1) * number.to_f
+      (operator == '+' ? -1 : 1) * number.to_f
+    end
+    # Only record the first number if the email
+    # contains non-number characters (reply)
+    if body =~ /[^-+\d\.\s]/
+      numbers = numbers[0..0]
     end
     if mail.from[0] && user = User.find_by_email(mail.from[0])
       user.recent_transactions ||= []
@@ -14,6 +19,7 @@ class IncomingMail < ActionMailer::Base
         user.recent_transactions.unshift(number)
         user.spent_this_month += number
       end
+      user.send_now = true
       user.save
       numbers
     else

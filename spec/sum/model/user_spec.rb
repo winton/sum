@@ -15,7 +15,7 @@ describe User do
       @user.spent_this_month.should == 0.00
       @user.temporary_spending_cut.should == 0.00
       @user.timezone_offset.should == -25200
-      @user.send_at.to_s.should == (@user.send(:next_5am, Time.now) - @user.timezone_offset).to_s
+      @user.send_at.to_s.should == @user.send(:local_5am_to_server_time).to_s
       @user.reset_at.to_s.should == (@user.send_at + 1.month).to_s
     end
     
@@ -27,13 +27,12 @@ describe User do
       @user.savings_goal.should == @user.savings
     end
     
-    it "should send email at next 5am" do
+    it "should set send_at to today at 5am (local time)" do
       send_at = @user.send_at + @user.timezone_offset
       now = Time.now.utc + @user.timezone_offset
-      [ now, now + 1.day ].include?(send_at.day) == true
+      send_at.day.should == now.day
       send_at.hour.should == 5
       send_at.min.should == 0
-      send_at.should > now
     end
     
     it "should reset balances one month from next 5am" do
@@ -41,15 +40,15 @@ describe User do
     end
     
     it "should only save the last ten transactions" do
-      @user.recent_transactions = Array.new(11)
+      @user.recent_transactions = Array.new(6)
       @user.save
-      @user.recent_transactions.length.should == 10
+      @user.recent_transactions.length.should == 5
     end
   end
   
   describe "invalid submission" do
   
-    before(:each) do
+    before(:all) do
       @user = User.create(
         :email => "",
         :bills => "",
@@ -71,7 +70,7 @@ describe User do
   
   describe "hacker submission" do
     
-    before(:each) do
+    before(:all) do
       @user = User.create(
         :email => "test@test.com",
         :bills => "1000.02",
@@ -89,7 +88,41 @@ describe User do
     
     it "shouldn't assign protected attributes" do
       @user.temporary_spending_cut.should == 0.00
-      @user.send_at.to_s.should == (@user.send(:next_5am, Time.now) - @user.timezone_offset).to_s
+      @user.send_at.to_s.should == @user.send(:local_5am_to_server_time).to_s
+    end
+  end
+  
+  describe "calculations" do
+    
+    before(:all) do
+      @user = User.create(
+        :email => "test@test.com",
+        :bills => "0",
+        :income => "800",
+        :savings => "100",
+        :timezone_offset => "-25200"
+      )
+      @user.spent_this_month = 701.00
+      @user.reset_at = DateTime.parse("2009-06-28 12:00:00").to_time
+      @user.send_at = DateTime.parse("2009-06-28 12:00:00").to_time
+      @user.save
+    end
+    
+    it "should" do
+      debug "beginning_of_month " + @user.beginning_of_month.to_s
+      debug "days_in_month " + @user.days_in_month.to_s
+      debug "days_left " + @user.days_left.to_s
+      debug "days_passed " + @user.days_passed.to_s
+      debug "should_have_spent " + @user.should_have_spent.to_s
+      debug "spending_goal " + @user.spending_goal.to_s
+      debug "spending_goal_today " + @user.spending_goal_today.to_s
+      debug "spending_goal_today_savings " + @user.spending_goal_today_savings.to_s
+      debug "spending_per_day " + @user.spending_per_day.to_s
+      debug "spent_this_month " + @user.spent_this_month.to_s
+      debug "surplus " + @user.surplus.to_s
+      debug "surplus_for_period " + @user.surplus_for_period.to_s
+      debug "total_left " + @user.total_left.to_s
+      debug "reset_at " + @user.reset_at.to_s
     end
   end
 end

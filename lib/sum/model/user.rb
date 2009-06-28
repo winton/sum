@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   before_save :before_save_spending_goal
   
   serialize :recent_transactions
+  serialize :spent_by_date
   
   validates_format_of(
     :email,
@@ -35,34 +36,24 @@ class User < ActiveRecord::Base
     end
   end
   
+  # Beginning of fiscal month
   def beginning_of_month
-    # Beginning of fiscal month
     self.reset_at - 1.month
   end
   
+  # Days in this fiscal month
   def days_in_month
-    # Days in this fiscal month
-    self.reset_at - self.beginning_of_month
+    self.reset_at.to_date - self.beginning_of_month.to_date
   end
   
+  # Days left in this fiscal month
   def days_left
-    # Days left in this fiscal month
     self.reset_at.to_date - Time.now.to_date
   end
   
+  # Days passed in this fiscal month
   def days_passed
-    # Days passed in this fiscal month
     Time.now.to_date - self.beginning_of_month.to_date
-  end
-  
-  def money_left
-    # Money left to spend in this fiscal month
-    self.spending_goal - self.spent_this_month
-  end
-  
-  def potential_savings
-    # Money that will be saved if daily spending goal is met
-    (self.savings_per_day * self.days_left) + self.surpus
   end
   
   def reset!
@@ -76,46 +67,52 @@ class User < ActiveRecord::Base
     self.save
   end
   
-  def savings_per_day
-    # How much the user is saving per day (ideally)
-    self.savings_goal / self.days_in_month
-  end
-  
   def sent!
     self.failures = 0
-    self.update_send_at
+    self.send_now = false
+    update_send_at
     self.sent_at = Time.now.utc
     self.save
   end
   
+  # How much the user should have spent in this period
   def should_have_spent
-    # How much the user should have spent in this period
     self.spending_per_day * self.days_passed
   end
   
+  # Spending goal for the month
   def spending_goal
-    # Spending goal for the month
     read_attribute(:spending_goal) - self.temporary_spending_cut
   end
   
+  # Today's spending goal
   def spending_goal_today
-    # Today's spending goal
-    self.money_left / self.days_left
+    self.surplus / self.days_left
   end
   
+  # Today's spending goal with savings included in money left to spend
   def spending_goal_today_savings
-    # Today's spending goal (don't go into debt edition)
-    (self.savings_goal - self.money_left) / self.days_left
+    (self.savings_goal + self.surplus) / self.days_left
   end
   
+  # How much the user is spending per day (ideally)
   def spending_per_day
-    # How much the user is spending per day (ideally)
     self.spending_goal / self.days_in_month
   end
   
+  # Variance from budget based on savings_goal
   def surplus
-    # How much money currently over or under budget
-    self.should_have_spent - self.spent_this_month
+    two_decimals(self.spending_goal - self.spent_this_month)
+  end
+  
+  # Variance from budget based on should_have_spent
+  def surplus_for_period
+    two_decimals(self.should_have_spent - self.spent_this_month)
+  end
+  
+  # Total remaining money for the month
+  def total_left
+    self.surplus + self.savings_goal
   end
 
   private
@@ -126,8 +123,8 @@ class User < ActiveRecord::Base
   end
   
   def before_save_recent_transactions
-    if self.recent_transactions.respond_to?(:index)
-      self.recent_transactions = self.recent_transactions[0..9]
+    if self.recent_transactions
+      self.recent_transactions = self.recent_transactions[0..4]
     end
   end
   
@@ -143,28 +140,32 @@ class User < ActiveRecord::Base
     end
   end
   
-  def next_5am(time)
-    time = to_local(time)
+  def local_5am_to_server_time
+    time = to_local_time(Time.now)
     time = DateTime.strptime(
       time.strftime("%m/%d/%Y 05:00 AM %Z"),
       "%m/%d/%Y %I:%M %p %Z"
     )
-    time = time.to_time
-    if to_local(Time.now) > time
-      time + 1.day
-    else
-      time
-    end
+    to_server_time(time.to_time)
   end
   
-  def to_local(time)
-    return time unless self.timezone_offset
+  def to_local_time(time)
+    return time.utc unless self.timezone_offset
     time.utc + self.timezone_offset
   end
   
   def to_number(string)
     string = string.gsub(/[^\d\.]/, '')
     string.blank? ? string : string.to_f
+  end
+  
+  def to_server_time(time)
+    return time.utc unless self.timezone_offset
+    time.utc - self.timezone_offset
+  end
+  
+  def two_decimals(amount)
+    sprintf("%.2f", amount).to_f
   end
   
   def update_reset_at
@@ -175,7 +176,7 @@ class User < ActiveRecord::Base
     if self.send_at
       self.send_at = self.send_at + 1.day
     else
-      self.send_at = next_5am(Time.now) - self.timezone_offset
+      self.send_at = local_5am_to_server_time
     end
   end
 end

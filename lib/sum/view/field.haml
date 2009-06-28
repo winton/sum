@@ -1,4 +1,6 @@
 - if valid?(attribute)
+  %input{ :name => "user[#{attribute}]", :type => "hidden", :value => @user.send(attribute) }
+- else
   .field
     %label{ :for => "user_#{attribute}" }
       = question
@@ -6,5 +8,3 @@
       .validation
         = errors_on(attribute)
     %input{ :id => "user_#{attribute}", :name => "user[#{attribute}]", :type => "text" }
-- else
-  %input{ :name => "user[#{attribute}]", :type => "hidden", :value => @user.send(attribute) }

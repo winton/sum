@@ -17,7 +17,7 @@ Application.class_eval do
     
     def valid?(attribute=nil)
       if attribute
-        !@user || @user.errors.on(attribute)
+        @user && @user.errors.on(attribute).nil?
       else
         @user && @user.valid?
       end
