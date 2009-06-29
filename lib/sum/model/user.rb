@@ -47,8 +47,8 @@ class User < ActiveRecord::Base
   
   # Days left in this fiscal month
   def days_left
-    self.reset_at.to_date - Time.now.utc.to_date
-  end
+    self.reset_at.to_date - Time.now.utc.to_date + 1
+  end                                            # include today
   
   # Days passed in this fiscal month
   def days_passed
