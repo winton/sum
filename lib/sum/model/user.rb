@@ -47,12 +47,12 @@ class User < ActiveRecord::Base
   
   # Days left in this fiscal month
   def days_left
-    self.reset_at.to_date - Time.now.to_date
+    self.reset_at.to_date - Time.now.utc.to_date
   end
   
   # Days passed in this fiscal month
   def days_passed
-    Time.now.to_date - self.beginning_of_month.to_date
+    Time.now.utc.to_date - self.beginning_of_month.to_date
   end
   
   def reset!
@@ -101,12 +101,12 @@ class User < ActiveRecord::Base
   
   # Variance from budget based on savings_goal
   def surplus
-    two_decimals(self.spending_goal - self.spent_this_month)
+    self.spending_goal - self.spent_this_month
   end
   
   # Variance from budget based on should_have_spent
   def surplus_for_period
-    two_decimals(self.should_have_spent - self.spent_this_month)
+    self.should_have_spent - self.spent_this_month
   end
   
   # Total remaining money for the month
