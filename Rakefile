@@ -5,7 +5,7 @@ require 'spec/rake/spectask'
 require 'gemspec'
 
 begin
-  require 'vendor/active_wrapper/lib/active_wrapper/tasks'
+  require 'active_wrapper/tasks'
   
   ActiveWrapper::Tasks.new(
     :base => File.dirname(__FILE__),
