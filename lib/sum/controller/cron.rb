@@ -1,11 +1,8 @@
 Application.class_eval do
   
-  get '/fetch' do
+  get '/cron' do
+    # Process incoming emails
     Fetcher.create($mail.config[:imap]).fetch
-    true
-  end
-  
-  get '/reset_and_send' do
     # Reset users
     conditions = [ 'reset_at <= ?', Time.now.utc ]
     users = User.find(:all, :conditions => conditions)
