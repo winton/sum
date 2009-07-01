@@ -101,12 +101,12 @@ class User < ActiveRecord::Base
   
   # Variance from budget based on savings_goal
   def surplus
-    self.spending_goal - self.spent_this_month
+    two_decimals(self.spending_goal - self.spent_this_month)
   end
   
   # Variance from budget based on should_have_spent
   def surplus_for_period
-    self.should_have_spent - self.spent_this_month
+    two_decimals(self.should_have_spent - self.spent_this_month)
   end
   
   # Total remaining money for the month
@@ -142,7 +142,7 @@ class User < ActiveRecord::Base
   def local_5am_to_server_time
     time = to_local_time(Time.now)
     time = DateTime.strptime(
-      time.strftime("%m/%d/%Y 05:00 AM %Z"),
+      time.strftime("%m/%d/%Y 12:00 AM %Z"),
       "%m/%d/%Y %I:%M %p %Z"
     )
     to_server_time(time.to_time)
