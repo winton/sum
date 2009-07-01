@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   
   # Reset spent_today if daily email
   def reset_spent_today
-    self.spent_today = 0 unless user.send_now?
+    self.spent_today = 0 unless self.send_now?
   end
   
   def reset!
