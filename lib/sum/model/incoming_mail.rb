@@ -18,6 +18,7 @@ class IncomingMail < ActionMailer::Base
       numbers.each do |number|
         user.recent_transactions.unshift(number)
         user.spent_this_month += number
+        user.spent_today += number
       end
       user.send_now = true
       user.save

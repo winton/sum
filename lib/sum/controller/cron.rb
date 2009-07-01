@@ -13,6 +13,7 @@ Application.class_eval do
     conditions = [ 'send_now = 1 OR (failures <= 5 AND send_at <= ?)', Time.now.utc ]
     users = User.find(:all, :conditions => conditions)
     users.each do |user|
+      user.reset_spent_today
       body = erb(:email, :locals => { :u => user })
       begin
         $mail.deliver(

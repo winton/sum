@@ -47,12 +47,22 @@ class User < ActiveRecord::Base
   
   # Days left in this fiscal month
   def days_left
-    self.reset_at.to_date - Time.now.utc.to_date + 1
-  end                                            # include today
+    self.reset_at.to_date - Time.now.utc.to_date
+  end
+  
+  # Days left in this fiscal month, including today
+  def days_left_including_today
+    self.days_left + 1
+  end
   
   # Days passed in this fiscal month
   def days_passed
     Time.now.utc.to_date - self.beginning_of_month.to_date
+  end
+  
+  # Reset spent_today if daily email
+  def reset_spent_today
+    self.spent_today = 0 unless user.send_now?
   end
   
   def reset!
@@ -86,12 +96,12 @@ class User < ActiveRecord::Base
   
   # Today's spending goal
   def spending_goal_today
-    self.surplus / self.days_left
+    (self.surplus / self.days_left_including_today) - self.spent_today
   end
   
   # Today's spending goal with savings included in money left to spend
   def spending_goal_today_savings
-    (self.savings_goal + self.surplus) / self.days_left
+    ((self.savings_goal + self.surplus) / self.days_left_including_today) - self.spent_today
   end
   
   # How much the user is spending per day (ideally)
@@ -99,14 +109,19 @@ class User < ActiveRecord::Base
     self.spending_goal / self.days_in_month
   end
   
+  # How much the user has spent this month, excluding today
+  def spent_this_month_except_today
+    self.spent_this_month - self.spent_today
+  end
+  
   # Variance from budget based on savings_goal
   def surplus
-    two_decimals(self.spending_goal - self.spent_this_month)
+    two_decimals(self.spending_goal - self.spent_this_month_except_today)
   end
   
   # Variance from budget based on should_have_spent
   def surplus_for_period
-    two_decimals(self.should_have_spent - self.spent_this_month)
+    two_decimals(self.should_have_spent - self.spent_this_month_except_today)
   end
   
   # Total remaining money for the month
