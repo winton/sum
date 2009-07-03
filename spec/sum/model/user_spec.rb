@@ -1,3 +1,4 @@
+require 'erb'
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
 describe User do
@@ -15,7 +16,7 @@ describe User do
       @user.spent_this_month.should == 0.00
       @user.temporary_spending_cut.should == 0.00
       @user.timezone_offset.should == -25200
-      @user.send_at.to_s.should == @user.send(:local_5am_to_server_time).to_s
+      @user.send_at.to_s.should == @user.send(:local_12am_to_server_time).to_s
       @user.reset_at.to_s.should == (@user.send_at + 1.month).to_s
     end
     
@@ -31,7 +32,7 @@ describe User do
       send_at = @user.send_at + @user.timezone_offset
       now = Time.now.utc + @user.timezone_offset
       send_at.day.should == now.day
-      send_at.hour.should == 5
+      send_at.hour.should == 0
       send_at.min.should == 0
     end
     
@@ -88,7 +89,7 @@ describe User do
     
     it "shouldn't assign protected attributes" do
       @user.temporary_spending_cut.should == 0.00
-      @user.send_at.to_s.should == @user.send(:local_5am_to_server_time).to_s
+      @user.send_at.to_s.should == @user.send(:local_12am_to_server_time).to_s
     end
   end
   
@@ -97,14 +98,15 @@ describe User do
     before(:all) do
       @user = User.create(
         :email => "test@test.com",
-        :bills => "0",
-        :income => "800",
-        :savings => "100",
+        :bills => "3000",
+        :income => "5000",
+        :savings => "1200",
         :timezone_offset => "-25200"
       )
-      @user.spent_this_month = 701.00
-      @user.reset_at = DateTime.parse("2009-06-28 12:00:00").to_time
-      @user.send_at = DateTime.parse("2009-06-28 12:00:00").to_time
+      @user.spent_this_month = 10.00
+      @user.spent_today = 0.00
+      @user.reset_at = DateTime.parse("2009-08-01 12:00:00").to_time
+      @user.send_at = DateTime.parse("2009-08-01 12:00:00").to_time
       @user.save
     end
     
@@ -123,6 +125,17 @@ describe User do
       debug "surplus_for_period " + @user.surplus_for_period.to_s
       debug "total_left " + @user.total_left.to_s
       debug "reset_at " + @user.reset_at.to_s
+      
+      u = @user
+      puts "<pre>" + ERB.new(File.read(File.expand_path("#{SPEC}/../lib/sum/view/email.erb"))).result(binding) + "</pre>"
+    end
+    
+    def days(day)
+      day == 1 ? "day" : "#{day} days"
+    end
+    
+    def money(amount)
+      "$#{sprintf("%.2f", amount)}"
     end
   end
 end

@@ -154,7 +154,7 @@ class User < ActiveRecord::Base
     end
   end
   
-  def local_5am_to_server_time
+  def local_12am_to_server_time
     time = to_local_time(Time.now)
     time = DateTime.strptime(
       time.strftime("%m/%d/%Y 12:00 AM %Z"),
@@ -190,7 +190,7 @@ class User < ActiveRecord::Base
     if self.send_at
       self.send_at = self.send_at + 1.day
     else
-      self.send_at = local_5am_to_server_time
+      self.send_at = local_12am_to_server_time
     end
   end
 end

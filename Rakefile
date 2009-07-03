@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rake'
+require 'cucumber/rake/task'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 require 'gemspec'
@@ -29,34 +30,14 @@ task :install do
   `rm -Rf pkg`
 end
 
-desc "Package gem"
+Cucumber::Rake::Task.new do |t|
+  t.cucumber_opts = "--format pretty"
+end
+
 Rake::GemPackageTask.new(GEM_SPEC) do |pkg|
   pkg.gem_spec = GEM_SPEC
 end
 
-desc "Setup project"
-task :setup do
-  name = File.basename(Dir.pwd)
-  `rm -Rf .git`
-  begin
-    dir = Dir['**/gem_template*']
-    from = dir.pop
-    if from
-      rb = from.include?('.rb')
-      to = File.dirname(from) + "/#{name}#{'.rb' if rb}"
-      FileUtils.mv(from, to)
-    end
-  end while dir.length > 0
-  Dir["**/*"].each do |path|
-    next if path.include?('Rakefile')
-    if File.file?(path)
-      `sed -i "" 's/gem_template/#{name}/g' #{path}`
-    end
-  end
-  `git init`
-end
-
-desc "Run specs"
 Spec::Rake::SpecTask.new do |t|
   t.rcov = true
   t.spec_opts = ["--format", "specdoc", "--colour"]

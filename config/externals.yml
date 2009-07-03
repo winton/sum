@@ -7,3 +7,6 @@ fetcher:
 sinatra:
   repo: git://github.com/sinatra/sinatra.git
   path: vendor
+webrat:
+  repo: git://github.com/brynary/webrat.git
+  path: vendor
