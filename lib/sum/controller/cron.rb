@@ -2,7 +2,9 @@ Application.class_eval do
   
   get '/cron' do
     # Process incoming emails
-    Fetcher.create($mail.config[:imap]).fetch
+    if $mail.config
+      Fetcher.create($mail.config[:imap]).fetch
+    end
     # Reset users
     conditions = [ 'reset_at <= ?', Time.now.utc ]
     users = User.find(:all, :conditions => conditions)

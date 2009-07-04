@@ -4,15 +4,8 @@ $:.unshift File.expand_path("#{SPEC}/../lib")
 
 require 'sum'
 require 'pp'
-require 'spec/interop/test'
-require 'rack/test'
-require File.expand_path("#{SPEC}/../vendor/webrat/lib/webrat")
 
 Spec::Runner.configure do |config|
-end
-
-Webrat.configure do |config|
-  config.mode = :rack
 end
 
 def create_valid_user
