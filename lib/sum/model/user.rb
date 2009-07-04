@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   attr_accessible :timezone_offset
   
   before_create :before_create_timestamps
+  
   before_save :before_save_recent_transactions
   before_save :before_save_savings_goal
   before_save :before_save_spending_goal

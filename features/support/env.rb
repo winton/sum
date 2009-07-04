@@ -9,22 +9,6 @@ require 'spec/mocks'
 require 'test/unit'
 require "#{$root}/vendor/webrat/lib/webrat"
 
-Webrat.configure do |config|
-  config.mode = :rack
-end
-
-Before do
-  $rspec_mocks ||= Spec::Mocks::Space.new
-end
-
-After do
-  begin
-    $rspec_mocks.verify_all
-  ensure
-    $rspec_mocks.reset_all
-  end
-end
-
 World do
   def app
     Application

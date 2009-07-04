@@ -13,7 +13,7 @@ GEM_SPEC = Gem::Specification.new do |s|
   s.add_dependency('sinatra', '=0.9.2')
   s.add_dependency('winton-externals', '=1.0.2')
   s.add_dependency('winton-fetcher', '=0.1.2')
-  s.add_dependency('winton-active_wrapper', '=0.1.2')
+  s.add_dependency('winton-active_wrapper', '=0.1.5')
   s.executables << GEM_NAME
   s.extra_rdoc_files = [ "README.markdown" ]
   s.files = GEM_FILES.to_a
