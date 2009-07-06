@@ -2,12 +2,12 @@ When /^I visit the front page$/ do
   visit '/'
 end
 
-When /^submit a valid form$/ do
+When /^I submit a valid form$/ do
   fill_all_with_valid_data
   click_button
 end
 
-When /^submit a valid form with (.+)$/ do |input|
+When /^I submit a valid form with (.+)$/ do |input|
   fill_all_with_valid_data
   values = case input
   when "decimals":     [ "1000.00", "5000.00", "2000.00" ]
@@ -34,4 +34,8 @@ end
 
 When /^the background job runs$/ do
   visit '/cron'
+end
+
+When /^output the email$/ do
+  puts current_email.body
 end

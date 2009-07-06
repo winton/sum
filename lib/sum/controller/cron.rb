@@ -12,11 +12,18 @@ Application.class_eval do
       user.reset!
     end
     # Send emails
-    conditions = [ 'send_now = 1 OR (failures <= 5 AND send_at <= ?)', Time.now.utc ]
+    conditions = [
+      'send_now = 1 OR (failures <= 5 AND send_at <= ?)',
+      Time.now.utc
+    ]
     users = User.find(:all, :conditions => conditions)
     users.each do |user|
       user.reset_spent_today
-      body = erb(:email, :locals => { :u => user })
+      body = haml(
+        :email,
+        :layout => false,
+        :locals => { :u => user }
+      )
       begin
         $mail.deliver(
           :from => 'sum@sumapp.com',

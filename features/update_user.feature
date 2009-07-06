@@ -6,17 +6,17 @@ Feature: Update user
   
   Scenario: I submit a valid form with decimals
     When I visit the front page
-    And submit a valid form with decimals
+    And I submit a valid form with decimals
     Then I should see a success page
   
   Scenario: I submit a valid form with numbers only
     When I visit the front page
-    And submit a valid form with numbers only
+    And I submit a valid form with numbers only
     Then I should see a success page
   
   Scenario: I submit a valid form with dollar signs
     When I visit the front page
-    And submit a valid form with dollar signs
+    And I submit a valid form with dollar signs
     Then I should see a success page
   
   Scenario: I submit an invalid savings amount

@@ -7,6 +7,7 @@ GEM_SPEC = Gem::Specification.new do |s|
   s.homepage = "http://github.com/winton/#{GEM_NAME}"
   s.summary = "Sinatra app that powers SumApp.com, a super simple budgeting system"
   # == CONFIGURE ==
+  s.add_dependency('bmabey-email_spec', '=0.2.0')
   s.add_dependency('haml', '=2.0.9')
   s.add_dependency('javan-whenever', '=0.3.1')
   s.add_dependency('rspec', '=1.2.7')

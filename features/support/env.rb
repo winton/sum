@@ -3,6 +3,10 @@ $root = File.expand_path(File.dirname(__FILE__) + "/../../")
 $:.unshift "#{$root}/lib"
 
 require 'sum'
+
+gem 'bmabey-email_spec', '=0.2.0'
+gem 'rspec', '=1.2.7'
+
 require 'email_spec'
 require 'rack/test'
 require 'spec/mocks'

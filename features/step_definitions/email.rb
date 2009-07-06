@@ -22,7 +22,7 @@ World(EmailHelpers)
  
 # Use this step to reset the e-mail queue within a scenario.
 # This is done automatically before each scenario.
-Given /^(?:a clear email queue|no emails have been sent)$/ do
+Given /^(?:my email queue is empty|no emails have been sent)$/ do
   reset_mailer
 end
  
@@ -53,11 +53,11 @@ Then %r{^"([^"]*?)" should not receive an email$} do |address|
 end
  
 Then %r{^I should see "([^"]*?)" in the subject$} do |text|
-  current_email.should have_subject(Regexp.new(text))
+  current_email.should have_subject(Regexp.new(Regexp.escape(text).gsub("\\n", "\n")))
 end
  
 Then %r{^I should see "([^"]*?)" in the email$} do |text|
-  current_email.body.should =~ Regexp.new(text)
+  current_email.body.should =~ Regexp.new(Regexp.escape(text).gsub("\\n", "\n"))
 end
  
 When %r{^"([^"]*?)" opens? the email with subject "([^"]*?)"$} do |address, subject|
