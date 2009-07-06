@@ -1,8 +1,8 @@
 Application.class_eval do
   helpers do
     
-    def days(day, include_number=nil)
-      day == 1 ? "#{include_number ? "#{day} " : ''}day" : "#{day} days"
+    def days(day)
+      day <= 1 ? day : "#{day} days"
     end
     
     def money(amount)

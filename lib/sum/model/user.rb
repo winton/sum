@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
   
   # Days left in this fiscal month
   def days_left
-    self.reset_at.to_date - Time.now.utc.to_date
+    self.days_left_including_today - 1
   end
   
   # Days left in this fiscal month in decimal form
@@ -59,12 +59,17 @@ class User < ActiveRecord::Base
   
   # Days left in this fiscal month, including today
   def days_left_including_today
-    self.days_left + 1
+    self.reset_at.to_date - Time.now.utc.to_date
   end
   
   # Days passed in this fiscal month
   def days_passed
     Time.now.utc.to_date - self.beginning_of_month.to_date
+  end
+  
+  # Days passed in this fiscal month, including today
+  def days_passed_including_today
+    Time.now.utc.to_date - self.beginning_of_month.to_date + 1
   end
   
   # Reset spent_today if daily email
@@ -93,7 +98,7 @@ class User < ActiveRecord::Base
   
   # How much the user should have spent in this period
   def should_have_spent
-    self.spending_per_day * self.days_passed
+    self.spending_per_day * self.days_passed_including_today
   end
   
   def spend!(amount)

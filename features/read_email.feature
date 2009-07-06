@@ -26,7 +26,8 @@ Feature: Read email
     And it is midnight
     When the background job runs
     And I open the email
-    Then I should see "You can spend $50.00 today" in the email
+    Then output the email
+    And I should see "You can spend $50.00 today" in the email
       # days in month = 30
       # spending money / days in month = 50
     And I should see "If you don't spend anything today, you will have" in the email
@@ -122,4 +123,83 @@ Feature: Read email
     Then I should see "You should not spend any money for the next 29 days if you want to avoid going into debt" in the email
     And I should see "You have spent $2450.00 more than expected for a 1 day period" in the email
     And I should see "Last transaction:\n  $-2500.00" in the email
-    
+  
+  Scenario: I see budget information for day 1, having gone into debt
+    Given it is day 1
+    And it is midnight
+    And I have spent $2501.00
+    When the background job runs
+    And I open the email
+    Then I should see "You need to earn $0.03 today" in the email
+      # total left = -1
+      # total left / days left including today * -1 = 0.03
+    And I should see "Continue to do so for the next 29 days to avoid going into debt" in the email
+    And I should see "If you do not, Sum will temporarily decrease your spending money for next month to account for the debt" in the email
+    And I should see "You have spent $2451.00 more than expected for a 1 day period" in the email
+    And I should see "Last transaction:\n  $-2501.00" in the email
+  
+  # Day 30
+
+  # Scenario: I see budget information for day 30, having spent nothing
+  #   Given it is day 30
+  #   And it is midnight
+  #   When the background job runs
+  #   And I open the email
+  #   Then I should see "You can spend $1500.00 today" in the email
+  #   And I should see "You have saved $1500.00 more than expected for a 30 day period" in the email
+  # 
+  # Scenario: I see budget information for day 30, having deposited money
+  #   Given it is day 30
+  #   And it is midnight
+  #   And I have deposited $1.00
+  #   When the background job runs
+  #   And I open the email
+  #   Then output the email
+  # 
+  # Scenario: I see budget information for day 30, having spent under budget
+  #   Given it is day 30
+  #   And it is midnight
+  #   And I have spent $49.00
+  #   When the background job runs
+  #   And I open the email
+  #   Then output the email
+  # 
+  # Scenario: I see budget information for day 30, having spent exactly my budget
+  #   Given it is day 30
+  #   And it is midnight
+  #   And I have spent $50.00
+  #   When the background job runs
+  #   And I open the email
+  #   Then output the email
+  # 
+  # Scenario: I see budget information for day 30, having spent over budget
+  #   Given it is day 30
+  #   And it is midnight
+  #   And I have spent $51.00
+  #   When the background job runs
+  #   And I open the email
+  #   Then output the email
+  # 
+  # Scenario: I see budget information for day 30, having spent all of my spending money
+  #   Given it is day 30
+  #   And it is midnight
+  #   And I have spent $1500.00
+  #   When the background job runs
+  #   And I open the email
+  #   Then output the email
+  # 
+  # Scenario: I see budget information for day 30, having spent all of my savings
+  #   Given it is day 30
+  #   And it is midnight
+  #   And I have spent $2500.00
+  #   When the background job runs
+  #   And I open the email
+  #   Then output the email
+  # 
+  # Scenario: I see budget information for day 30, having gone into debt
+  #   Given it is day 30
+  #   And it is midnight
+  #   And I have spent $2501.00
+  #   When the background job runs
+  #   And I open the email
+  #   Then output the email

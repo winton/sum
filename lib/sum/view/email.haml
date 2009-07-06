@@ -5,12 +5,13 @@
     = "You can spend #{money(u.spending_goal_today)} today."
   - elsif u.spending_goal_today < 0
     = "You have spent your budget for today, plus an additional #{money(u.spending_goal_today * -1)}."
-  ~ "\n"
-
-  = "If you #{u.spent_today <= 0 ? "don't spend anything" : "only spend #{money(u.spent_today)}"} today, you will have"
-  = "  #{money(u.surplus / u.days_left)} to spend each day."
-  = "  #{money((u.surplus / u.days_left) * 7)} to spend each week."
-  = "  #{money(u.surplus)} to spend over the next #{days(u.days_left)}."
+  
+  - if u.days_left > 1
+    ~ "\n"
+    = "If you #{u.spent_today <= 0 ? "don't spend anything" : "only spend #{money(u.spent_today)}"} today, you will have"
+    = "  #{money(u.surplus / u.days_left)} to spend each day."
+    = "  #{money((u.surplus / u.days_left) * 7)} to spend each week."
+    = "  #{money(u.surplus)} to spend over the next #{days(u.days_left)}."
 
 - elsif u.total_left > 0
   = "You should not spend any money for the next #{days(u.days_left)} if you want to continue to save #{money(u.total_left)}."
@@ -32,23 +33,23 @@
 
 - if u.surplus_for_period > 0
   ~ "\n"
-  = "You have saved #{money(u.surplus_for_period)} more than expected for a #{days(u.days_passed, true)} period."
+  = "You have saved #{money(u.surplus_for_period)} more than expected for a #{u.days_passed_including_today} day period."
 
 - elsif u.surplus_for_period < 0
   ~ "\n"
-  = "You have spent #{money(u.surplus_for_period * -1)} more than expected for a #{days(u.days_passed, true)} period."
+  = "You have spent #{money(u.surplus_for_period * -1)} more than expected for a #{u.days_passed_including_today} day period."
 
 - else
   ~ "\n"
-  = "You have spent exactly as expected for a #{days(u.days_passed, true)} period."
+  = "You have spent exactly as expected for a #{u.days_passed_including_today} day period."
 
 ~ "\n------"
 ~ "\n"
 
 = "Fiscal month: #{u.beginning_of_month.strftime("%m/%d/%y")} to #{u.reset_at.strftime("%m/%d/%y")}"
-~ "\n"
 
 - if u.recent_transactions
+  ~ "\n"
   = "Last #{u.recent_transactions.length == 1 ? "transaction" : "#{u.recent_transactions.length} transactions"}:"
   - u.recent_transactions.compact.each do |amount|
     = "  #{money(amount * -1)}"

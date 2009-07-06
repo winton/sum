@@ -35,7 +35,7 @@ end
 Given /^it is day (.+)$/ do |day|
   day = day.to_i
   user = find_user
-  Time.stub!(:now).and_return(user.reset_at - 1.month + day.days - 1.day)
+  Time.stub!(:now).and_return(user.reset_at - 1.month + day.days - 2.days)
 end
 
 Given /^I have spent \$(.+)$/ do |amount|
