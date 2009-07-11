@@ -14,7 +14,7 @@
     = "  #{money(u.surplus)} to spend over the next #{days(u.days_left)}."
 
 - elsif u.total_left > 0
-  = "You should not spend any money for the next #{days(u.days_left)} if you want to continue to save #{money(u.total_left)}."
+  = "You should not spend any money #{"for the next #{days(u.days_left)} " if u.days_left > 0}if you want to continue to save #{money(u.total_left)}."
   - if u.days_left > 1
     ~ "\n"
     = "If you wish to spend into your savings this month, you can afford to spend"
@@ -23,11 +23,12 @@
     = "  #{money(u.total_left)} over the next #{days(u.days_left)}."
 
 - elsif u.total_left == 0  
-  = "You should not spend any money for the next #{days(u.days_left)} if you want to avoid going into debt."
+  = "You should not spend any money #{"for the next #{days(u.days_left)} " if u.days_left > 0}if you want to avoid going into debt."
 - else
   = "You need to earn #{money(u.total_left / u.days_left_including_today * -1)} today."
-  ~ "\n"
-  = "Continue to do so for the next #{days(u.days_left)} to avoid going into debt."
+  - if u.days_left > 0
+    ~ "\n"
+    = "Continue to do so for the next #{days(u.days_left)} to avoid going into debt."
   ~ "\n"
   If you do not, Sum will temporarily decrease your spending money for next month to account for the debt.
 

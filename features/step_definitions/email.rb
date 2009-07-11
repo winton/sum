@@ -59,6 +59,10 @@ end
 Then %r{^I should see "([^"]*?)" in the email$} do |text|
   current_email.body.should =~ Regexp.new(Regexp.escape(text).gsub("\\n", "\n"))
 end
+
+Then %r{^I should not see "([^"]*?)" in the email$} do |text|
+  current_email.body.should_not =~ Regexp.new(Regexp.escape(text).gsub("\\n", "\n"))
+end
  
 When %r{^"([^"]*?)" opens? the email with subject "([^"]*?)"$} do |address, subject|
   open_email(address, :with_subject => subject)

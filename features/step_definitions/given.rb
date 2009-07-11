@@ -38,8 +38,14 @@ Given /^it is day (.+)$/ do |day|
   Time.stub!(:now).and_return(user.reset_at - 1.month + day.days - 2.days)
 end
 
-Given /^I have spent \$(.+)$/ do |amount|
+Given /^today I have spent \$(.+)$/ do |amount|
   find_user.spend!(amount)
+end
+
+Given /^before today I spent \$(.+)$/ do |amount|
+  user = find_user
+  user.spent_this_month += amount.to_f
+  user.save
 end
 
 Given /^I have deposited \$(.+)$/ do |amount|
