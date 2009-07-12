@@ -55,6 +55,10 @@ end
 Then %r{^I should see "([^"]*?)" in the subject$} do |text|
   current_email.should have_subject(Regexp.new(Regexp.escape(text).gsub("\\n", "\n")))
 end
+
+Then %r{^I should see in the email:$} do |text|
+  current_email.body.should =~ Regexp.new(Regexp.escape(text).gsub("\\n", "\n"))
+end
  
 Then %r{^I should see "([^"]*?)" in the email$} do |text|
   current_email.body.should =~ Regexp.new(Regexp.escape(text).gsub("\\n", "\n"))
