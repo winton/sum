@@ -10,10 +10,10 @@ Feature: Read email
       | savings | income | bills |
       | 1000    | 5000   | 2500  |
       # income - bills - savings = 1500 (spending money)
+    And it is not midnight
     And my email queue is empty
   
   Scenario: I see some static information every day
-    Given it is midnight
     When the background job runs
     And I open the email
     Then I should see "Today's budget" in the subject
@@ -23,8 +23,6 @@ Feature: Read email
   # Day 1
   
   Scenario: I see budget information for day 1, having spent nothing today
-    Given it is day 1
-    And it is midnight
     When the background job runs
     And I open the email
     Then I should see in the email:
@@ -46,7 +44,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 1, having deposited money
     Given it is day 1
-    And it is midnight
     And I have deposited $1.00
     When the background job runs
     And I open the email
@@ -66,7 +63,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 1, having spent under budget
     Given it is day 1
-    And it is midnight
     And today I have spent $49.00
     When the background job runs
     And I open the email
@@ -84,7 +80,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 1, having spent exactly my budget
     Given it is day 1
-    And it is midnight
     And today I have spent $50.00
     When the background job runs
     And I open the email
@@ -102,7 +97,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 1, having spent over budget
     Given it is day 1
-    And it is midnight
     And today I have spent $51.00
     When the background job runs
     And I open the email
@@ -120,7 +114,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 1, having spent all of my spending money
     Given it is day 1
-    And it is midnight
     And today I have spent $1500.00
     When the background job runs
     And I open the email
@@ -141,7 +134,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 1, having spent all of my savings
     Given it is day 1
-    And it is midnight
     And today I have spent $2500.00
     When the background job runs
     And I open the email
@@ -154,7 +146,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 1, having gone into debt
     Given it is day 1
-    And it is midnight
     And today I have spent $2501.00
     When the background job runs
     And I open the email
@@ -175,8 +166,8 @@ Feature: Read email
 
   Scenario: I see budget information for day 15, having spent nothing today
     Given it is day 15
-    And it is midnight
     And before today I spent $700.00
+    And today I have spent $0.00
     When the background job runs
     And I open the email
     Then I should see in the email:
@@ -193,7 +184,6 @@ Feature: Read email
 
   Scenario: I see budget information for day 15, having deposited money
     Given it is day 15
-    And it is midnight
     And I have deposited $1.00
     And before today I spent $700.00
     When the background job runs
@@ -212,7 +202,6 @@ Feature: Read email
 
   Scenario: I see budget information for day 15, having spent under budget
     Given it is day 15
-    And it is midnight
     And before today I spent $700.00
     And today I have spent $49.00
     When the background job runs
@@ -231,7 +220,6 @@ Feature: Read email
 
   Scenario: I see budget information for day 15, having spent exactly my budget
     Given it is day 15
-    And it is midnight
     And before today I spent $700.00
     And today I have spent $50.00
     When the background job runs
@@ -250,7 +238,6 @@ Feature: Read email
 
   Scenario: I see budget information for day 15, having spent over budget
     Given it is day 15
-    And it is midnight
     And before today I spent $700.00
     And today I have spent $51.00
     When the background job runs
@@ -269,7 +256,6 @@ Feature: Read email
     
   Scenario: I see budget information for day 15, having spent all of my spending money
     Given it is day 15
-    And it is midnight
     And before today I spent $700.00
     And today I have spent $800.00
     When the background job runs
@@ -288,7 +274,6 @@ Feature: Read email
 
   Scenario: I see budget information for day 15, having spent all of my savings
     Given it is day 15
-    And it is midnight
     And before today I spent $700.00
     And today I have spent $1050.00
     When the background job runs
@@ -307,7 +292,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 15, having gone into debt
     Given it is day 15
-    And it is midnight
     And before today I spent $700.00
     And today I have spent $1801.00
     When the background job runs
@@ -327,8 +311,8 @@ Feature: Read email
 
   Scenario: I see budget information for day 30, having spent nothing today
     Given it is day 30
-    And it is midnight
     And before today I spent $1450.00
+    And today I have spent $0.00
     When the background job runs
     And I open the email
     Then I should see in the email:
@@ -340,7 +324,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 30, having deposited money
     Given it is day 30
-    And it is midnight
     And I have deposited $1.00
     And before today I spent $1450.00
     When the background job runs
@@ -354,7 +337,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 30, having spent under budget
     Given it is day 30
-    And it is midnight
     And before today I spent $1450.00
     And today I have spent $49.00
     When the background job runs
@@ -368,7 +350,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 30, having spent exactly my budget
     Given it is day 30
-    And it is midnight
     And before today I spent $1450.00
     And today I have spent $50.00
     When the background job runs
@@ -382,7 +363,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 30, having spent over budget
     Given it is day 30
-    And it is midnight
     And before today I spent $1450.00
     And today I have spent $51.00
     When the background job runs
@@ -396,7 +376,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 30, having spent all of my savings
     Given it is day 30
-    And it is midnight
     And before today I spent $1450.00
     And today I have spent $1050.00
     When the background job runs
@@ -410,7 +389,6 @@ Feature: Read email
   
   Scenario: I see budget information for day 30, having gone into debt
     Given it is day 30
-    And it is midnight
     And before today I spent $1450.00
     And today I have spent $1051.00
     When the background job runs

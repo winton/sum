@@ -17,3 +17,16 @@ end
 def find_user
   User.find_by_email(current_email_address)
 end
+
+def generate_email(options={})
+<<EMAIL
+Delivered-To: test@sumapp.com
+Return-Path: <#{options[:from] || 'cucumber@sumapp.com'}>
+From: Winton Welsh <#{options[:from] || 'cucumber@sumapp.com'}>
+To: test@sumapp.com
+Subject: #{options[:subject] || ''}
+
+#{options[:body] || ''}
+
+EMAIL
+end

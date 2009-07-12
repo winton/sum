@@ -10,11 +10,20 @@ end
 
 Given /^it is midnight$/ do
   now = Time.now.utc
-  tonight_at_12 = DateTime.strptime(
-    (now + 1.day).strftime("%m/%d/%Y 12:00 AM %Z"),
+  today_at_12 = DateTime.strptime(
+    now.strftime("%m/%d/%Y 12:00 AM %Z"),
     "%m/%d/%Y %I:%M %p %Z"
   ).to_time
-  Time.stub!(:now).and_return(tonight_at_12)
+  Time.stub!(:now).and_return(today_at_12)
+end
+
+Given /^it is not midnight$/ do
+  now = Time.now.utc
+  today_at_1 = DateTime.strptime(
+    now.strftime("%m/%d/%Y 01:00 AM %Z"),
+    "%m/%d/%Y %I:%M %p %Z"
+  ).to_time
+  Time.stub!(:now).and_return(today_at_1)
 end
 
 Given /^I have created an account with these attributes:$/ do |table|
@@ -35,11 +44,12 @@ end
 Given /^it is day (.+)$/ do |day|
   day = day.to_i
   user = find_user
-  Time.stub!(:now).and_return(user.reset_at - 1.month + day.days - 2.days)
+  user.update_attribute(:send_at, user.send_at + day.days)
+  Time.stub!(:now).and_return(user.reset_at - 1.month + day.days - 1.day)
 end
 
 Given /^today I have spent \$(.+)$/ do |amount|
-  find_user.spend!(amount)
+  IncomingMail.receive(generate_email(:subject => amount))
 end
 
 Given /^before today I spent \$(.+)$/ do |amount|
@@ -49,5 +59,5 @@ Given /^before today I spent \$(.+)$/ do |amount|
 end
 
 Given /^I have deposited \$(.+)$/ do |amount|
-  find_user.spend!("-#{amount}")
+  IncomingMail.receive(generate_email(:subject => "+#{amount}"))
 end

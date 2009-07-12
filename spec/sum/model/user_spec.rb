@@ -2,14 +2,15 @@ require 'erb'
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
 describe User do
-  describe "valid submission" do
+  describe "creation" do
   
     before(:all) do
       @user = create_valid_user
     end
   
     it "should populate record attributes properly" do
-      @user.email.should == "test@test.com"
+      @user.email.should == "cucumber@sumapp.com"
+      @user.failures.should == 0
       @user.recent_transactions.should == nil
       @user.savings_goal.should == 500.02
       @user.spending_goal.should == 1000.50
@@ -20,15 +21,7 @@ describe User do
       @user.reset_at.to_s.should == (@user.send_at + 1.month).to_s
     end
     
-    it "should make the spending goal equal to income minus bills minus savings" do
-      @user.spending_goal.should == @user.income - @user.bills - @user.savings
-    end
-    
-    it "should make the savings goal equal to savings" do
-      @user.savings_goal.should == @user.savings
-    end
-    
-    it "should set send_at to today at 5am (local time)" do
+    it "should set send_at to today at 12am (local time)" do
       send_at = @user.send_at + @user.timezone_offset
       now = Time.now.utc + @user.timezone_offset
       send_at.day.should == now.day
@@ -36,7 +29,7 @@ describe User do
       send_at.min.should == 0
     end
     
-    it "should reset balances one month from next 5am" do
+    it "should reset balances one month from send_at" do
       @user.reset_at.should == @user.send_at + 1.month
     end
     
@@ -45,9 +38,102 @@ describe User do
       @user.save
       @user.recent_transactions.length.should == 5
     end
+    
+    it "should make the savings goal equal to savings" do
+      @user.savings_goal.should == @user.savings
+    end
+    
+    it "should make the spending goal equal to income minus bills minus savings" do
+      @user.spending_goal.should == @user.income - @user.bills - @user.savings
+    end
   end
   
-  describe "invalid submission" do
+  describe "reset!" do
+    
+    before(:all) do
+      @user = create_valid_user
+      @user.spend!(1500.53)
+      @old_reset_at = @user.reset_at
+      @user.reset!
+    end
+    
+    it "should set temporary_spending_cut to amount gone into debt" do
+      @user.send(:two_decimals, @user.temporary_spending_cut).should == 0.01
+    end
+    
+    it "should set spent_this_month to zero" do
+      @user.send(:two_decimals, @user.temporary_spending_cut).should == 0.01
+    end
+    
+    it "should add a month to reset_at" do
+      @user.reset_at.should == @old_reset_at + 1.month
+    end
+  end
+  
+  describe "reset_spent_today!" do
+    
+    before(:all) do
+      @user = create_valid_user
+      @user.spend!(1.0)
+      @user.reset_spent_today!
+    end
+    
+    it "should set spent_today to zero" do
+      @user.spent_today.should == 0
+    end
+  end
+  
+  describe "sent!" do
+    
+    before(:all) do
+      @user = create_valid_user
+      @user.update_attribute :failures, 1
+      @old_send_at = @user.send_at
+      @user.sent!
+    end
+    
+    it "should set failures to zero" do
+      @user.failures.should == 0
+    end
+    
+    it "should set send_now to false" do
+      @user.send_now.should == false
+    end
+    
+    it "should add one day to send_at" do
+      @user.send_at.should == @old_send_at + 1.day
+    end
+    
+    it "should update sent_at to the current time" do
+      @user.sent_at.to_s.should == Time.now.utc.to_s
+    end
+  end
+  
+  describe "spend!" do
+    
+    before(:all) do
+      @user = create_valid_user
+      @user.spend!(1.00)
+    end
+    
+    it "should add the number to the user's recent transactions" do
+      @user.recent_transactions.should == [ 1.0 ]
+    end
+    
+    it "should add the number to the user's monthly spending total" do
+      @user.spent_this_month.should == 1.00
+    end
+    
+    it "should add the number to the user's daily spending total" do
+      @user.spent_today.should == 1.00
+    end
+    
+    it "should set send_now to true" do
+      @user.send_now.should == true
+    end
+  end
+  
+  describe "errors" do
   
     before(:all) do
       @user = User.create(
@@ -69,11 +155,11 @@ describe User do
     end
   end
   
-  describe "hacker submission" do
+  describe "attribute protection" do
     
     before(:all) do
       @user = User.create(
-        :email => "test@test.com",
+        :email => "cucumber@sumapp.com",
         :bills => "1000.02",
         :income => "2500.54",
         :savings => "500.02",

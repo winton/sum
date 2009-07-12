@@ -10,7 +10,7 @@ end
 
 def create_valid_user
   User.create(
-    :email => "test@test.com",
+    :email => "cucumber@sumapp.com",
     :bills => "1000.02",
     :income => "2500.54",
     :savings => "500.02",
@@ -28,8 +28,8 @@ end
 def generate_email(options={})
 <<EMAIL
 Delivered-To: test@sumapp.com
-Return-Path: <#{options[:from] || 'test@test.com'}>
-From: Winton Welsh <#{options[:from] || 'test@test.com'}>
+Return-Path: <#{options[:from] || 'cucumber@sumapp.com'}>
+From: Winton Welsh <#{options[:from] || 'cucumber@sumapp.com'}>
 To: test@sumapp.com
 Subject: #{options[:subject] || ''}
 

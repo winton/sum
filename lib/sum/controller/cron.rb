@@ -11,6 +11,12 @@ Application.class_eval do
     users.each do |user|
       user.reset!
     end
+    # Reset spent today
+    conditions = [ 'send_at <= ?', Time.now.utc ]
+    users = User.find(:all, :conditions => conditions)
+    users.each do |user|
+      user.reset_spent_today!
+    end
     # Send emails
     conditions = [
       'send_now = 1 OR (failures <= 5 AND send_at <= ?)',
@@ -18,7 +24,6 @@ Application.class_eval do
     ]
     users = User.find(:all, :conditions => conditions)
     users.each do |user|
-      user.reset_spent_today
       body = haml(
         :email,
         :layout => false,

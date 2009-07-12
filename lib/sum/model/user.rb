@@ -48,18 +48,12 @@ class User < ActiveRecord::Base
   
   # Days left in this fiscal month
   def days_left
-    self.days_left_including_today - 1
-  end
-  
-  # Days left in this fiscal month in decimal form
-  def days_left_precise
-    puts Time.now.utc.inspect
-    (self.reset_at - Time.now.utc) / (24*60*60)
+    self.reset_at.to_date - Time.now.utc.to_date - 1
   end
   
   # Days left in this fiscal month, including today
   def days_left_including_today
-    self.reset_at.to_date - Time.now.utc.to_date
+    self.days_left + 1
   end
   
   # Days passed in this fiscal month
@@ -69,17 +63,16 @@ class User < ActiveRecord::Base
   
   # Days passed in this fiscal month, including today
   def days_passed_including_today
-    Time.now.utc.to_date - self.beginning_of_month.to_date + 1
+     self.days_passed + 1
   end
   
-  # Reset spent_today if daily email
-  def reset_spent_today
-    self.spent_today = 0 unless self.send_now?
+  # Reset spent_today
+  def reset_spent_today!
+    self.update_attribute :spent_today, 0
   end
   
   def reset!
-    maximum_spending_limit = self.spending_goal + self.savings_goal
-    self.temporary_spending_cut = self.spent_this_month - maximum_spending_limit
+    self.temporary_spending_cut = self.total_left * -1
     if self.temporary_spending_cut < 0
       self.temporary_spending_cut = 0
     end
