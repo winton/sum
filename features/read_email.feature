@@ -423,3 +423,47 @@ Feature: Read email
       
       You have spent $1001.00 more than expected for a 30 day period.
       """
+  
+  
+  # Transactions
+  
+  Scenario: I see my last transaction
+    Given today I have spent $1.00
+    When the background job runs
+    And I open the email
+    Then I should see in the email:
+      """
+      Last transaction:
+        $-1.00
+      """
+  
+  Scenario: I see my last two transactions
+    Given today I have spent $1.00
+    And today I have spent $2.00
+    When the background job runs
+    And I open the email
+    Then I should see in the email:
+      """
+      Last 2 transactions:
+        $-2.00
+        $-1.00
+      """
+
+  Scenario: I see my last five transactions
+    Given today I have spent $1.00
+    And today I have spent $2.00
+    And today I have spent $3.00
+    And today I have spent $4.00
+    And today I have spent $5.00
+    And today I have spent $6.00
+    When the background job runs
+    And I open the email
+    Then I should see in the email:
+      """
+      Last 5 transactions:
+        $-6.00
+        $-5.00
+        $-4.00
+        $-3.00
+        $-2.00
+      """

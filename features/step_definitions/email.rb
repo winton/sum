@@ -1,32 +1,7 @@
-#Commonly used email steps
-#
-# To add your own steps make a custom_email_steps.rb
-# The provided methods are:
-#
-# reset_mailer
-# open_last_email
-# visit_in_email
-# unread_emails_for
-# mailbox_for
-# current_email
-# open_email
-# read_emails_for
-# find_email
- 
-module EmailHelpers
-  def current_email_address
-    "cucumber@sumapp.com" # Replace with your a way to find your current_email. e.g current_user.email
-  end
-end
-World(EmailHelpers)
- 
-# Use this step to reset the e-mail queue within a scenario.
-# This is done automatically before each scenario.
 Given /^(?:my email queue is empty|no emails have been sent)$/ do
   reset_mailer
 end
- 
-# Use this step to open the most recently sent e-mail.
+
 When /^I open the email$/ do
   open_email(current_email_address)
 end
