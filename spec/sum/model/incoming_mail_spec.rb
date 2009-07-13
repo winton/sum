@@ -38,10 +38,28 @@ describe IncomingMail do
         @numbers.should == [ 11.11, -11 ]
       end
     end
+    
+    describe "numbers and emails in subject" do
+      
+      before(:all) do
+        email = generate_email(
+          :subject => "11.11 win@sumapp.com winton@sumapp.com"
+        )
+        @emails, @numbers = IncomingMail.receive(email)
+      end
+      
+      it 'should process the correct numbers' do
+        @numbers.should == [ 11.11 ]
+      end
+
+      it 'should process the correct emails' do
+        @emails.should == [ "win@sumapp.com", "winton@sumapp.com" ]
+      end
+    end
   end
   
   describe "invalid" do
-    describe "no numbers" do
+    describe "no numbers or emails" do
       
       before(:all) do
         email = generate_email(:body => "this is a test")
@@ -50,6 +68,7 @@ describe IncomingMail do
     
       it 'should fail' do
         @numbers.should == []
+        @emails.should == []
       end
     end
     
@@ -62,6 +81,7 @@ describe IncomingMail do
       
       it 'should fail' do
         @numbers.should == nil
+        @emails.should == nil
       end
     end
   end
