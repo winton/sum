@@ -10,7 +10,6 @@ describe User do
   
     it "should populate record attributes properly" do
       @user.email.should == "cucumber@sumapp.com"
-      @user.failures.should == 0
       @user.recent_transactions.should == nil
       @user.savings_goal.should == 500.02
       @user.spending_goal.should == 1000.50
@@ -87,13 +86,8 @@ describe User do
     
     before(:all) do
       @user = create_valid_user
-      @user.update_attribute :failures, 1
       @old_send_at = @user.send_at
       @user.sent!
-    end
-    
-    it "should set failures to zero" do
-      @user.failures.should == 0
     end
     
     it "should set send_now to false" do
@@ -102,10 +96,6 @@ describe User do
     
     it "should add one day to send_at" do
       @user.send_at.should == @old_send_at + 1.day
-    end
-    
-    it "should update sent_at to the current time" do
-      @user.sent_at.to_s.should == Time.now.utc.to_s
     end
   end
   

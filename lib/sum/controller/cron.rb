@@ -19,7 +19,7 @@ Application.class_eval do
     end
     # Send emails
     conditions = [
-      'send_now = 1 OR (failures <= 5 AND send_at <= ?)',
+      'send_now = 1 OR send_at <= ?',
       Time.now.utc
     ]
     users = User.find(:all, :conditions => conditions)
@@ -31,19 +31,22 @@ Application.class_eval do
       )
       begin
         user.emails.each do |email|
+          @email = email
+          next unless email.active? && email.failures <= 5
           $mail.deliver(
             :from => 'sum@sumapp.com',
             :to => email.email,
             :subject => "Today's budget",
             :body => body
           )
+          email.sent!
         end
         user.sent!
       rescue Exception => e
         # In test mode, this is actually catching an error caused by a weird issue with email_spec
         # resetting the rack session when an email delivers (I think).
         unless self.class.environment == :test
-          user.increment!(:failures)
+          @email.increment!(:failures)
         end
       end
     end

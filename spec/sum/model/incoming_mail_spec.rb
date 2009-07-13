@@ -56,19 +56,40 @@ describe IncomingMail do
         @emails.should == [ "win@sumapp.com", "winton@sumapp.com" ]
       end
     end
+    
+    describe "start/stop" do
+      
+      before(:all) do
+        email = generate_email(
+          :subject => " start",
+          :body => " stop"
+        )
+        @emails, @numbers, @start, @stop = IncomingMail.receive(email)
+      end
+      
+      it 'should start' do
+        @start.should == true
+      end
+
+      it 'should stop' do
+        @stop.should == true
+      end
+    end
   end
   
   describe "invalid" do
-    describe "no numbers or emails" do
+    describe "no numbers, emails, starts, or stops" do
       
       before(:all) do
         email = generate_email(:body => "this is a test")
-        @emails, @numbers = IncomingMail.receive(email)
+        @emails, @numbers, @start, @stop = IncomingMail.receive(email)
       end
     
       it 'should fail' do
         @numbers.should == []
         @emails.should == []
+        @start.should == false
+        @stop.should == false
       end
     end
     

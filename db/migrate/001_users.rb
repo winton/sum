@@ -1,7 +1,6 @@
 class Users < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
-      t.column :failures, :integer, :default => 0
       t.column :recent_transactions, :string, :limit => 1024
       t.column :savings_goal, :decimal, :precision => 10, :scale => 2, :default => 0
       t.column :send_now, :boolean, :default => false
@@ -12,7 +11,6 @@ class Users < ActiveRecord::Migration
       t.column :timezone_offset, :integer, :default => 0
       t.column :reset_at, :datetime
       t.column :send_at, :datetime
-      t.column :sent_at, :datetime
       t.timestamps
     end
   end

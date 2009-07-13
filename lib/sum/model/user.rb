@@ -90,10 +90,8 @@ class User < ActiveRecord::Base
   end
   
   def sent!
-    self.failures = 0
     self.send_now = false
     update_send_at
-    self.sent_at = Time.now.utc
     self.save
   end
   
