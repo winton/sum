@@ -1,6 +1,12 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
 describe IncomingMail do
+  
+  before(:all) do
+    migrate_reset
+    @user = create_valid_user
+  end
+  
   describe "valid" do
     describe "numbers only" do
       
@@ -9,7 +15,7 @@ describe IncomingMail do
           :subject => "-11.11 -11 11.11",
           :body => "11 +11 +11.11"
         )
-        @numbers = IncomingMail.receive(email)
+        @emails, @numbers = IncomingMail.receive(email)
         @total = @numbers.inject(0) { |sum, item| sum + item }
       end
 
@@ -25,7 +31,7 @@ describe IncomingMail do
           :subject => "-11.11a -11",
           :body => "+11a +11.11"
         )
-        @numbers = IncomingMail.receive(email)
+        @emails, @numbers = IncomingMail.receive(email)
       end
 
       it 'should process the correct numbers' do
@@ -39,19 +45,19 @@ describe IncomingMail do
       
       before(:all) do
         email = generate_email(:body => "this is a test")
-        @numbers = IncomingMail.receive(email)
+        @emails, @numbers = IncomingMail.receive(email)
       end
     
       it 'should fail' do
-        @numbers.should == nil
+        @numbers.should == []
       end
     end
     
     describe "no user" do
       
       before(:all) do
-        email = generate_email(:email => "not@user.com")
-        @numbers = IncomingMail.receive(email)
+        email = generate_email(:from => "not@user.com", :subject => '1')
+        @emails, @numbers = IncomingMail.receive(email)
       end
       
       it 'should fail' do

@@ -6,17 +6,20 @@ class User < ActiveRecord::Base
   attr_accessible :savings
   attr_accessible :timezone_offset
   
+  after_create :after_create_email
   before_create :before_create_timestamps
   
   before_save :before_save_recent_transactions
   before_save :before_save_savings_goal
   before_save :before_save_spending_goal
   
+  has_many :emails, :class_name => 'UserEmail', :dependent => :destroy
+  
   serialize :recent_transactions
   
   validates_format_of(
     :email,
-    :with => /^[_a-z0-9\+\.\-]+\@[_a-z0-9\-]+\.[_a-z0-9\.\-]+$/i,
+    :with => /\S+@\S+\.\S+/,
     :unless => lambda { |r| r.email.blank? }
   )
   validates_numericality_of(
@@ -25,14 +28,19 @@ class User < ActiveRecord::Base
     :savings,
     :unless => lambda { |r| r.bills.nil? && r.income.nil? && r.savings.nil? }
   )
-  validates_presence_of :email
+  validates_presence_of :email, :unless => lambda { |r| r.email.nil? }
   
-  [ :bills, :income, :savings ].each do |attribute|
+  [ :email, :bills, :income, :savings ].each do |attribute|
     define_method(attribute) do
       read_attribute attribute
     end
-    define_method("#{attribute}=") do |amount|
-      write_attribute attribute, to_number(amount)
+    define_method("#{attribute}=") do |value|
+      case attribute
+      when :email
+        write_attribute attribute, value
+      else
+        write_attribute attribute, to_number(value)
+      end
     end
   end
   
@@ -150,6 +158,10 @@ class User < ActiveRecord::Base
   end
 
   private
+  
+  def after_create_email
+    UserEmail.create(:email => read_attribute(:email), :user_id => self.id)
+  end
   
   def before_create_timestamps
     self.reset_at = update_send_at

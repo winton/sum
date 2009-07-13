@@ -19,6 +19,7 @@ Application.class_eval do
   )
   $db.establish_connection
   if $mail.config
+    ActionMailer::Base.raise_delivery_errors = true
     imap = { :receiver => IncomingMail, :type => :imap }
     $mail.config[:imap].merge!(imap)
   end

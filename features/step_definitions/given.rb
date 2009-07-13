@@ -5,7 +5,8 @@ Given /^I have created an account$/ do
 end
 
 Given /^I have not created an account$/ do
-  $db.migrate_reset
+  User.delete_all
+  UserEmail.delete_all
 end
 
 Given /^it is midnight$/ do

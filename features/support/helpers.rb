@@ -15,7 +15,7 @@ def fill_all_with_valid_data(hash={})
 end
 
 def find_user
-  User.find_by_email(current_email_address)
+  UserEmail.find_by_email(current_email_address).user
 end
 
 def generate_email(options={})
