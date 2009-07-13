@@ -5,8 +5,6 @@ describe IncomingMail do
     describe "numbers only" do
       
       before(:all) do
-        migrate_reset
-        @user = create_valid_user
         email = generate_email(
           :subject => "-11.11 -11 11.11",
           :body => "11 +11 +11.11"
@@ -23,17 +21,15 @@ describe IncomingMail do
     describe "non-number characters (reply email)" do
 
       before(:all) do
-        migrate_reset
-        @user = create_valid_user
         email = generate_email(
-          :subject => "-11.11 -11",
-          :body => "11a"
+          :subject => "-11.11a -11",
+          :body => "+11a +11.11"
         )
         @numbers = IncomingMail.receive(email)
       end
 
       it 'should process the correct numbers' do
-        @numbers.should == [ 11.11 ]
+        @numbers.should == [ 11.11, -11 ]
       end
     end
   end
