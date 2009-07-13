@@ -45,6 +45,7 @@ end
 Given /^it is day (.+)$/ do |day|
   day = day.to_i
   user = find_user
+  # Email already sent today
   user.update_attribute(:send_at, user.send_at + day.days)
   Time.stub!(:now).and_return(user.reset_at - 1.month + day.days - 1.day)
 end

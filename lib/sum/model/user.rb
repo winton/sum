@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
   
   # Days left in this fiscal month
   def days_left
-    self.reset_at.to_date - Time.now.utc.to_date - 1
+    to_local(self.reset_at).to_date - to_local(Time.now).to_date - 1
   end
   
   # Days left in this fiscal month, including today
@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
   
   # Days passed in this fiscal month
   def days_passed
-    Time.now.utc.to_date - self.beginning_of_month.to_date
+    to_local(Time.now).to_date - to_local(self.beginning_of_month).to_date
   end
   
   # Days passed in this fiscal month, including today
@@ -187,15 +187,15 @@ class User < ActiveRecord::Base
   end
   
   def local_12am_to_server_time
-    time = to_local_time(Time.now)
+    time = to_local(Time.now)
     time = DateTime.strptime(
       time.strftime("%m/%d/%Y 12:00 AM %Z"),
       "%m/%d/%Y %I:%M %p %Z"
     )
-    to_server_time(time.to_time)
+    to_system(time.to_time)
   end
   
-  def to_local_time(time)
+  def to_local(time)
     return time.utc unless self.timezone_offset
     time.utc + self.timezone_offset
   end
@@ -205,7 +205,7 @@ class User < ActiveRecord::Base
     string.blank? ? string : string.to_f
   end
   
-  def to_server_time(time)
+  def to_system(time)
     return time.utc unless self.timezone_offset
     time.utc - self.timezone_offset
   end
