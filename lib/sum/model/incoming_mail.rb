@@ -1,33 +1,44 @@
 class IncomingMail < ActionMailer::Base
   
+  class <<self
+    def process!
+      if $mail.config
+        Fetcher.create($mail.config[:imap]).fetch
+      end
+    end
+  end
+  
   def receive(mail)
-    emails = get_emails(mail.subject)
-    numbers = get_numbers(mail.subject, mail.body)
-    start = get_start(mail.subject, mail.body)
-    stop = get_stop(mail.subject, mail.body)
+    emails = parse_emails(mail.subject)
+    numbers = parse_numbers(mail.subject, mail.body)
+    start = parse_start(mail.subject, mail.body)
+    stop = parse_stop(mail.subject, mail.body)
+    
     if mail.from[0] && email = UserEmail.find_by_email(mail.from[0])
       user = email.user
     else
       return
     end
+    
     if user
       emails.each do |email|
-        user.emails.create(:email => email)
+        user.add_email!(email, true)
       end
       numbers.each do |number|
         user.spend!(number)
       end
-      email.update_attribute(:active, true) if start
-      email.update_attribute(:active, false) if stop
+      email.activate! if start
+      email.deactivate! if stop
     end
+    
     [ emails, numbers, start, stop ]
   end
   
-  def get_emails(*args)
+  def parse_emails(*args)
     args.collect { |text| text.scan(/\S+@\S+\.\S+/) }.flatten
   end
   
-  def get_numbers(*args)
+  def parse_numbers(*args)
     args.collect { |text|
       first_non_number = text.index(/[^-+\d\.\s]/)
       return [] if first_non_number == 0
@@ -42,11 +53,11 @@ class IncomingMail < ActionMailer::Base
     }.flatten
   end
   
-  def get_start(*args)
+  def parse_start(*args)
     args.collect { |text| text.strip[0..4].downcase == 'start' }.include?(true)
   end
   
-  def get_stop(*args)
+  def parse_stop(*args)
     args.collect { |text| text.strip[0..3].downcase == 'stop' }.include?(true)
   end
 end

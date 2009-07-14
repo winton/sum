@@ -1,6 +1,7 @@
 class Users < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
+      t.column :flash, :string
       t.column :recent_transactions, :string, :limit => 1024
       t.column :savings_goal, :decimal, :precision => 10, :scale => 2, :default => 0
       t.column :send_now, :boolean, :default => false

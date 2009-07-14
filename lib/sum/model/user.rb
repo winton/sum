@@ -30,6 +30,54 @@ class User < ActiveRecord::Base
   )
   validates_presence_of :email, :unless => lambda { |r| r.email.nil? }
   
+  # Class methods
+  
+  class <<self
+    
+    def reset_users!
+      conditions = [ 'reset_at <= ?', Time.now.utc ]
+      users = self.find(:all, :conditions => conditions)
+      users.each do |user|
+        user.reset!
+      end
+    end
+    
+    def reset_spent_today!
+      conditions = [ 'send_at <= ?', Time.now.utc ]
+      users = self.find(:all, :conditions => conditions)
+      users.each do |user|
+        user.reset_spent_today!
+      end
+    end
+    
+    def send_emails!(&block)
+      conditions = [
+        'send_now = 1 OR send_at <= ?',
+        Time.now.utc
+      ]
+      users = self.find(:all, :conditions => conditions)
+      users.each do |user|
+        user.emails.each do |email|
+          next unless email.active? && email.failures <= 5
+          begin
+            $mail.deliver(
+              :from => 'sum@sumapp.com',
+              :to => email.email,
+              :subject => "Today's budget",
+              :body => yield(user)
+            )
+            email.sent!
+          rescue Exception => e
+            email.increment!(:failures)
+          end
+        end
+        user.sent!
+      end
+    end
+  end
+  
+  # Instance methods
+  
   [ :email, :bills, :income, :savings ].each do |attribute|
     define_method(attribute) do
       read_attribute attribute
@@ -41,6 +89,16 @@ class User < ActiveRecord::Base
       else
         write_attribute attribute, to_number(value)
       end
+    end
+  end
+  
+  def add_email!(address, send=false)
+    UserEmail.create(:email => address, :user_id => self.id)
+    if send
+      self.update_attributes(
+        :flash => "Successfully added #{address} to your account.",
+        :send_now => true
+      )
     end
   end
   
@@ -74,6 +132,12 @@ class User < ActiveRecord::Base
      self.days_passed + 1
   end
   
+  def flash!
+    f = self.flash
+    self.update_attribute(:flash, nil)
+    f
+  end
+  
   # Reset spent_today
   def reset_spent_today!
     self.update_attribute :spent_today, 0
@@ -93,6 +157,10 @@ class User < ActiveRecord::Base
     self.send_now = false
     update_send_at
     self.save
+  rescue
+    # This fixes a really confusing error when running cucumber features:
+    #   No response yet. Request a page first. (Rack::Test::Error)
+    # Happens on User#save after using $mail.deliver.
   end
   
   # How much the user should have spent in this period
@@ -158,7 +226,7 @@ class User < ActiveRecord::Base
   private
   
   def after_create_email
-    UserEmail.create(:email => read_attribute(:email), :user_id => self.id)
+    self.add_email!(read_attribute(:email))
   end
   
   def before_create_timestamps

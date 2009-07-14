@@ -1,3 +1,8 @@
+- unless u.flash.blank?
+  = u.flash!
+  ~ "\n------"
+  ~ "\n"
+
 - if u.surplus > 0  
   - if u.spending_goal_today == 0
     = "You have spent your budget for today."
