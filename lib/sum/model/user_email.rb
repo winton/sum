@@ -5,10 +5,9 @@ class UserEmail < ActiveRecord::Base
   
   def activate!
     self.update_attribute(:active, true)
-    self.user.update_attributes(
-      :flash => "Successfully re-activated #{self.email}.",
-      :send_now => true
-    )
+    self.user.flash = "Successfully re-activated #{self.email}.",
+    self.user.send_now = true
+    self.user.save
   end
   
   def deactivate!
