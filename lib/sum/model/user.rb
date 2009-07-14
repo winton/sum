@@ -93,10 +93,9 @@ class User < ActiveRecord::Base
   def add_email!(address, send=false)
     UserEmail.create(:email => address, :user_id => self.id)
     if send
-      self.update_attributes(
-        :flash => "Successfully added #{address} to your account.",
-        :send_now => true
-      )
+      self.flash = "Successfully added #{address} to your account."
+      self.send_now = true
+      self.save
     end
   end
   
