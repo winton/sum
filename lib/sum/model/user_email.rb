@@ -18,7 +18,7 @@ class UserEmail < ActiveRecord::Base
         :from => 'sum@sumapp.com',
         :to => self.email,
         :subject => 'Sum deactivated',
-        :body => 'Reply with the word "start" to begin receiving emails from Sum again.'
+        :body => 'Reply with the word "start" to begin receiving emails again.'
       )
       self.sent!
     rescue Exception

@@ -83,12 +83,10 @@ class User < ActiveRecord::Base
       read_attribute attribute
     end
     define_method("#{attribute}=") do |value|
-      case attribute
-      when :email
-        write_attribute attribute, value
-      else
-        write_attribute attribute, to_number(value)
-      end
+      write_attribute(
+        attribute,
+        attribute == :email ? value : to_number(value)
+      )
     end
   end
   
