@@ -38,9 +38,13 @@ class IncomingMail < ActionMailer::Base
   private
   
   def get_body(mail)
-    mail.parts.select { |part|
-      part['content-type'].content_type == 'text/plain'
-    }.first
+    if mail.parts.empty?
+      mail
+    else
+      mail.parts.select { |part|
+        part['content-type'].content_type == 'text/plain'
+      }.first
+    end
   end
   
   def parse_emails(*args)
