@@ -129,12 +129,6 @@ class User < ActiveRecord::Base
      self.days_passed + 1
   end
   
-  def flash!
-    f = self.flash
-    self.update_attribute(:flash, nil)
-    f
-  end
-  
   # Reset spent_today
   def reset_spent_today!
     self.update_attribute :spent_today, 0
@@ -151,6 +145,7 @@ class User < ActiveRecord::Base
   end
   
   def sent!
+    self.flash = nil
     self.send_now = false
     update_send_at
     self.save
