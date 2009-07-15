@@ -52,7 +52,7 @@
 ~ "\n------"
 ~ "\n"
 
-= "Fiscal month: #{u.beginning_of_month.strftime("%m/%d/%y")} to #{u.reset_at.strftime("%m/%d/%y")}"
+= "Fiscal month: #{u.beginning_of_month.strftime("%m/%d/%y")} to #{u.reset_at.strftime("%m/%d/%y")} (#{u.days_in_month} days)"
 
 - if u.recent_transactions
   ~ "\n"

@@ -10,7 +10,6 @@ Application.class_eval do
       @user = User.create(params[:user])
     end
     @title = valid? ? 'Success!' : 'Fix mistakes'
-    @title = [ 'New budget', @title ].compact.join(' - ')
     haml :new
   end
 end

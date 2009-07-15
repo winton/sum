@@ -1,7 +1,7 @@
 .h1 { font-weight: bold; font-size: 16px; color: #07578F; text-align: center; padding-bottom: 8px; }
 a { color: #E16817; }
 body { margin: 0px; background: #F3F3F3; }
-body, body div, input { font-weight: bold; font-size: 14px; font-family: 'Helvetica Neue', helvetica, arial, sans-serif; color: #777D7F; }
+body, body div, input { font-weight: bold; font-size: 14px; font-family: 'Helvetica Neue', helvetica, arial, sans-serif; color: #575D60; }
 a:hover { color: #AA0000; }
 #ribbon { position: absolute; height: 128px; right: 0px; background-image: url(/image/ribbon.png); width: 128px; top: 0px; }
 #bot { margin-bottom: 20px; text-align: center; height: 19px; }

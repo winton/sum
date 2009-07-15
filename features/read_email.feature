@@ -17,7 +17,7 @@ Feature: Read email
     When the background job runs
     And I open the email
     Then I should see "Today's budget" in the subject
-    And I should see "Fiscal month: 06/01/09 to 07/01/09" in the email
+    And I should see "Fiscal month: 06/01/09 to 07/01/09 (30 days)" in the email
   
   
   # Day 1
