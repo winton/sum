@@ -32,9 +32,21 @@ Return-Path: <#{options[:from] || 'cucumber@sumapp.com'}>
 From: Winton Welsh <#{options[:from] || 'cucumber@sumapp.com'}>
 To: test@sumapp.com
 Subject: #{options[:subject] || ''}
+Content-Type: multipart/alternative; boundary=000325574d2a5057e1046eae4ba5
+
+--000325574d2a5057e1046eae4ba5
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
 #{options[:body] || ''}
 
+--000325574d2a5057e1046eae4ba5
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+#{options[:body] || ''}<br>
+
+--000325574d2a5057e1046eae4ba5--
 EMAIL
 end
 

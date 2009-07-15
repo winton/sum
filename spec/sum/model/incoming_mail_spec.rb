@@ -43,13 +43,10 @@ describe IncomingMail do
       
       before(:all) do
         email = generate_email(
-          :subject => "11.11 win@sumapp.com winton@sumapp.com"
+          :subject => "win@sumapp.com",
+          :body => "winton@sumapp.com"
         )
         @emails, @numbers = IncomingMail.receive(email)
-      end
-      
-      it 'should process the correct numbers' do
-        @numbers.should == [ 11.11 ]
       end
 
       it 'should process the correct emails' do
@@ -62,7 +59,7 @@ describe IncomingMail do
       before(:all) do
         email = generate_email(
           :subject => " start",
-          :body => " stop"
+          :body => "stop"
         )
         @emails, @numbers, @start, @stop = IncomingMail.receive(email)
       end
