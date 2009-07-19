@@ -26,3 +26,7 @@ Then /^the error should be "([^\"]*)"$/ do |error|
     assert_contain error
   end
 end
+
+Then /^spent today should be zero$/ do
+  find_user.spent_today.should == 0
+end

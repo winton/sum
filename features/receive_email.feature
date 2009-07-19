@@ -26,3 +26,13 @@ Feature: Receive email
     And it is midnight
     When the background job runs
     Then I should receive an email
+  
+  Scenario: I receive a budget email at midnight having added a transaction today
+    Given I have created an account
+    And today I have spent $1.00
+    And the background job ran
+    And my email queue is empty
+    And it is midnight
+    When the background job runs
+    Then I should receive an email
+    And spent today should be zero

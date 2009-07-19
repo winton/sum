@@ -10,7 +10,6 @@ Feature: Read email
       | savings | income | bills |
       | 1000    | 5000   | 2500  |
       # income - bills - savings = 1500 (spending money)
-    And it is not midnight
     And my email queue is empty
   
   Scenario: I see some static information every day

@@ -18,15 +18,6 @@ Given /^it is midnight$/ do
   Time.stub!(:now).and_return(today_at_12)
 end
 
-Given /^it is not midnight$/ do
-  now = Time.now.utc
-  today_at_1 = DateTime.strptime(
-    now.strftime("%m/%d/%Y 01:00 AM %Z"),
-    "%m/%d/%Y %I:%M %p %Z"
-  ).to_time
-  Time.stub!(:now).and_return(today_at_1)
-end
-
 Given /^I have created an account with these attributes:$/ do |table|
   $db.migrate_reset
   When "I visit the front page"
@@ -47,7 +38,7 @@ Given /^it is day (.+)$/ do |day|
   user = find_user
   # Email already sent today
   user.update_attribute(:send_at, user.send_at + day.days)
-  Time.stub!(:now).and_return(user.reset_at - 1.month + day.days - 1.day)
+  Time.stub!(:now).and_return(user.reset_at - 1.month + (day - 1).days)
 end
 
 Given /^today I have spent \$(.+)$/ do |amount|
@@ -62,4 +53,8 @@ end
 
 Given /^I have deposited \$(.+)$/ do |amount|
   IncomingMail.receive(generate_email(:subject => "+#{amount}"))
+end
+
+Given /^the background job ran$/ do
+  When "the background job runs"
 end
