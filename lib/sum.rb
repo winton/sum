@@ -25,6 +25,6 @@ require 'secret_key'
 class Application < Sinatra::Base
 end
 
-Dir["#{File.dirname(__FILE__)}/sum/**/*.rb"].each do |path|
+Dir["#{File.dirname(__FILE__)}/sum/**/*.rb"].sort.each do |path|
   require path
 end
