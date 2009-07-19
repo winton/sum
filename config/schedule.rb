@@ -10,5 +10,10 @@ require 'secret_key'
 key = SecretKey.new(File.dirname(__FILE__)).read
 
 every 1.minute do
-  command "curl http://beta.sumapp.com/#{key}"
+  case @environment
+  when 'production'
+    command "curl http://beta.sumapp.com/#{key}"
+  when 'development'
+    command "curl http://localhost:#{@port}/cron"
+  end
 end
