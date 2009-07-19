@@ -25,5 +25,5 @@ Application.class_eval do
   end
   
   # Secret key
-  @secret_key = SecretKey.new(root).read
+  $secret_key = SecretKey.new(root).read
 end

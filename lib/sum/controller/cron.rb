@@ -1,6 +1,6 @@
 Application.class_eval do
   
-  get "/#{environment == :development ? 'cron' : @secret_key}" do
+  get "/#{environment == :development ? 'cron' : $secret_key}" do
     IncomingMail.process!
     User.reset_users!
     User.reset_spent_today!
