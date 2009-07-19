@@ -147,7 +147,7 @@ class User < ActiveRecord::Base
   def sent!
     self.flash = nil
     self.send_now = false
-    update_send_at
+    update_send_at unless self.send_now_changed?
     self.save
   rescue
     # This fixes a really confusing error when running cucumber features:
