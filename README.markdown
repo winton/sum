@@ -21,7 +21,7 @@ sudo gem install winton-sum
 Fork the [Sum repository](http://github.com/winton/sum) on [GitHub](http://github.com).
 
 <pre>
-git clone git@github.com:YOUR_NAME/active_wrapper.git
+git clone git@github.com:YOUR_NAME/sum.git
 cd sum
 </pre>
 
