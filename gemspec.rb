@@ -9,7 +9,7 @@ GEM_SPEC = Gem::Specification.new do |s|
   # == CONFIGURE ==
   s.add_dependency('bmabey-email_spec', '=0.2.0')
   s.add_dependency('haml', '=2.0.9')
-  s.add_dependency('javan-whenever', '=0.3.1')
+  s.add_dependency('javan-whenever', '=0.3.6')
   s.add_dependency('rspec', '=1.2.7')
   s.add_dependency('sinatra', '=0.9.2')
   s.add_dependency('winton-active_wrapper', '=0.1.5')

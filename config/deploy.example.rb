@@ -25,3 +25,12 @@ set :ubistrano, {
 }
 
 require 'ubistrano'
+
+after "deploy:update_code", "deploy:update_crontab"
+
+namespace :deploy do
+  desc "Update the crontab file"
+  task :update_crontab, :roles => :web do
+    run "cd #{release_path} && whenever --update-crontab #{application}"
+  end
+end
