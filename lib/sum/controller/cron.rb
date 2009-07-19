@@ -1,6 +1,6 @@
 Application.class_eval do
   
-  get '/cron' do
+  get "/#{@secret_key}" do
     IncomingMail.process!
     User.reset_users!
     User.reset_spent_today!

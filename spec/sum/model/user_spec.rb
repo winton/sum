@@ -32,7 +32,7 @@ describe User do
       @user.reset_at.should == @user.send_at + 1.month
     end
     
-    it "should only save the last ten transactions" do
+    it "should only save the last five transactions" do
       @user.recent_transactions = Array.new(6)
       @user.save
       @user.recent_transactions.length.should == 5

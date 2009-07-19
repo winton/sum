@@ -39,7 +39,7 @@ describe IncomingMail do
       end
     end
     
-    describe "numbers and emails in subject" do
+    describe "emails in the subject and body" do
       
       before(:all) do
         email = generate_email(

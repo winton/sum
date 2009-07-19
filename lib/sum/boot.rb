@@ -23,4 +23,7 @@ Application.class_eval do
     imap = { :receiver => IncomingMail, :type => :imap }
     $mail.config[:imap].merge!(imap)
   end
+  
+  # Secret key
+  @secret_key = SecretKey.new(root).read
 end
