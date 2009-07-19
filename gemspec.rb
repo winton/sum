@@ -5,7 +5,7 @@ GEM_SPEC = Gem::Specification.new do |s|
   s.author = "Winton Welsh"
   s.email = "mail@wintoni.us"
   s.homepage = "http://github.com/winton/#{GEM_NAME}"
-  s.summary = "Sinatra app that powers SumApp.com, a super simple budgeting system"
+  s.summary = "A simple budgeting app built on Sinatra"
   # == CONFIGURE ==
   s.add_dependency('bmabey-email_spec', '=0.2.0')
   s.add_dependency('cucumber', '>=0.3.11')
@@ -28,5 +28,5 @@ GEM_SPEC = Gem::Specification.new do |s|
   s.name = GEM_NAME
   s.platform = Gem::Platform::RUBY
   s.require_path = "lib"
-  s.version = "0.1.0"
+  s.version = "0.0.0"
 end
