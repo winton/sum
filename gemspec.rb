@@ -13,6 +13,7 @@ GEM_SPEC = Gem::Specification.new do |s|
   s.add_dependency('less', '>=0.8.11')
   s.add_dependency('javan-whenever', '=0.3.6')
   s.add_dependency('rspec', '>=1.2.7')
+  s.add_dependency('shotgun', '>=0.3')
   s.add_dependency('sinatra', '=0.9.2')
   s.add_dependency('winton-active_wrapper', '=0.1.5')
   s.add_dependency('winton-externals', '=1.0.2')
