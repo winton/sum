@@ -36,3 +36,24 @@ Feature: Receive email
     When the background job runs
     Then I should receive an email
     And spent today should be zero
+
+  Scenario: I receive a budget email at the end of the month
+    Given today is June 1, 2009
+    And I have created an account
+    And today I have spent $1.00
+    And today is July 1, 2009
+    And it is midnight
+    When the background job runs
+    And I open the email
+    Then spent today should be zero
+    And I should see in the email:
+      """
+      You need to earn $0.03 today.
+      """
+      # tests User#temporary_spending_cut
+    And I should see in the email:
+      """
+      Fiscal month: 07/01/09 to 08/01/09
+      """
+    And output the email
+    
