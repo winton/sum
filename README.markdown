@@ -8,6 +8,8 @@ The flow
 
 Fill out a form containing your total monthly bills, income, and desired savings. When you use your credit card or the ATM, send an email to [sum@sumapp.com](mailto:sum@sumapp.com) with the dollar amount. Every midnight, you will receive an email with budgeting metrics for the day. 
 
+Take a look at the [read email feature](http://github.com/winton/sum/raw/f39009bb9ecb21ef7cec1ebcd409f2acc9e9cb94/features/read_email.feature) to see example budget email scenarios.
+
 Development setup
 -----------------
 
