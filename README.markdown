@@ -25,12 +25,24 @@ git clone git@github.com:YOUR_NAME/sum.git
 cd sum
 </pre>
 
+Create your database:
+
+<pre>
+mysql -uroot -e "create database sum;"
+</pre>
+
 Copy and edit the example config files:
 
 <pre>
 cp config/database.example.yml config/database.yml
 cp config/mail.example.yml config/mail.yml
 mate config/database.yml config/mail.yml
+</pre>
+
+Migrate the database:
+
+<pre>
+rake db:migrate
 </pre>
 
 Start the application with shotgun:
