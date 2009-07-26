@@ -1,5 +1,6 @@
 - if valid?(attribute)
   %input{ :name => "user[#{attribute}]", :type => "hidden", :value => @user.send(attribute) }
+  
 - else
   .field
     %label{ :for => "user_#{attribute}" }

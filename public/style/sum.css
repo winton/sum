@@ -20,3 +20,5 @@ a:hover { color: #AA0000; }
 h1 { font-size: 16px; font-weight: bold; color: #07578F; text-align: center; padding-bottom: 8px; }
 #top a { outline: none; }
 #top { text-align: center; height: 120px; }
+h2 a { color: #AB0000; }
+h2 { font-weight: bold; font-size: 21px; margin: 25px 0px 15px; display: block; text-align: center; }
