@@ -9,7 +9,6 @@ Feature: Read email
     And I have created an account with these attributes:
       | savings | income | bills |
       | 1000    | 5000   | 2500  |
-      # income - bills - savings = 1500 (spending money)
     And my email queue is empty
   
   Scenario: I see some static information every day
