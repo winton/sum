@@ -4,8 +4,20 @@
 - else
   .field
     %label{ :for => "user_#{attribute}" }
-      = question
-    - if errors_on(attribute)
-      .validation
-        = errors_on(attribute)
-    %input{ :id => "user_#{attribute}", :name => "user[#{attribute}]", :type => "text" }
+      - unless checkbox
+        = question
+    - unless checkbox
+      - if errors_on(attribute)
+        .validation
+          = errors_on(attribute)
+    - if checkbox
+      .checkbox
+        %input{ :id => "user_#{attribute}", :name => "user[#{attribute}]", :value => "1", :type => "checkbox" }
+        %label{ :for => "user_#{attribute}" }
+          = question
+        - if errors_on(attribute)
+          .validation
+            = errors_on(attribute)
+    - else
+      .text
+        %input{ :id => "user_#{attribute}", :name => "user[#{attribute}]", :type => "text" }

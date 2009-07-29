@@ -1,24 +1,119 @@
-.h1 { font-weight: bold; font-size: 16px; color: #07578F; text-align: center; padding-bottom: 8px; }
-a { color: #E16817; }
-body { margin: 0px; background: #F3F3F3; }
-body, body div, input { font-weight: bold; font-size: 14px; font-family: 'Helvetica Neue', helvetica, arial, sans-serif; color: #575D60; }
-a:hover { color: #AA0000; }
-#ribbon { position: absolute; height: 128px; right: 0px; background-image: url(/image/ribbon.png); width: 128px; top: 0px; }
-#bot { margin-bottom: 20px; text-align: center; height: 19px; }
+.h1 {
+  color: #07578f;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 8px;
+}
+a { color: #e16817; }
+a:hover { color: #aa0000; }
+body {
+  background: #f3f3f3;
+  margin: 0px;
+}
+body {
+  color: #575d60;
+  font-family: 'Helvetica Neue', helvetica, arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+}
+body div {
+  color: #575d60;
+  font-family: 'Helvetica Neue', helvetica, arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+}
+input {
+  color: #575d60;
+  font-family: 'Helvetica Neue', helvetica, arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+}
+#body {
+  background-image: url(/image/bg.png);
+  margin: 0 auto;
+  overflow: auto;
+  padding: 6px 29px;
+  width: 400px;
+}
+#body > div { background-color: #ffffff; }
+#body > div .field {
+  margin-bottom: 20px;
+  text-align: center;
+}
+#body > div .field label {
+  color: #07578f;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 8px;
+  cursor: pointer;
+}
+#body > div .field .checkbox { text-align: left; }
+#body > div .field .checkbox input {
+  float: left;
+  margin: 2px 10px 50px;
+}
+#body > div .field .text input {
+  background-color: #f3f3f3;
+  background-image: url(/image/field_off.png);
+  border: 0px;
+  display: block;
+  height: 19px;
+  padding: 3px;
+  text-align: center;
+  width: 394px;
+}
+#body > div .field .text input:focus { background-image: url(/image/field_on.png); }
+#body > div .field .validation { color: #aa0000; }
+#body > div .number {
+  clear: both;
+  line-height: 25px;
+  margin-bottom: 7px;
+  overflow: auto;
+}
 #body > div p.last { margin: 0px; }
-#body > div .submit input { background: transparent; outline: none; height: 30px; width: 88px; }
-#body > div .submit { height: 30px; text-align: right; }
-#body > div .number { margin-bottom: 7px; overflow: auto; clear: both; line-height: 25px; }
-#body > div .field label { font-size: 16px; font-weight: bold; cursor: pointer; color: #07578F; text-align: center; padding-bottom: 8px; }
-#body > div .field .validation { color: #AA0000; }
-#body > div .field input:focus { background-image: url(/image/field_on.png); }
-#body > div .field input { background-color: #F3F3F3; border: 0px; padding: 3px; display: block; text-align: center; height: 19px; background-image: url(/image/field_off.png); width: 394px; }
-#body > div .field { margin-bottom: 20px; text-align: center; }
 #body > div .spacer { margin-top: 25px; }
-#body > div { background-color: #fff; }
-#body { overflow: auto; margin: 0 auto; padding: 6px 29px; background-image: url(/image/bg.png); width: 400px; }
-h1 { font-size: 16px; font-weight: bold; color: #07578F; text-align: center; padding-bottom: 8px; }
+#body > div .submit {
+  text-align: right;
+  height: 30px;
+}
+#body > div .submit input {
+  background: transparent;
+  height: 30px;
+  outline: none;
+  width: 88px;
+}
+#bot {
+  height: 19px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+h1 {
+  color: #07578f;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 8px;
+}
+h2 {
+  display: block;
+  font-size: 21px;
+  font-weight: bold;
+  margin: 25px 0px 15px;
+  text-align: center;
+}
+h2 a { color: #ab0000; }
+#ribbon {
+  background-image: url(/image/ribbon.png);
+  height: 128px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 128px;
+}
+#top {
+  height: 120px;
+  text-align: center;
+}
 #top a { outline: none; }
-#top { text-align: center; height: 120px; }
-h2 a { color: #AB0000; }
-h2 { font-weight: bold; font-size: 21px; margin: 25px 0px 15px; display: block; text-align: center; }

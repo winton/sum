@@ -5,11 +5,12 @@ Application.class_eval do
       @user && @user.errors.on(attribute)
     end
     
-    def field(attribute, question)
+    def field(type, attribute, question)
       partial(
         :field,
         :locals => {
           :attribute => attribute,
+          :checkbox => type == :checkbox,
           :question => question
         }
       )

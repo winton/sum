@@ -14,7 +14,8 @@ def create_valid_user
     :bills => "1000.02",
     :income => "2500.54",
     :savings => "500.02",
-    :timezone_offset => "-25200"
+    :timezone_offset => "-25200",
+    :tos => '1'
   )
 end
 

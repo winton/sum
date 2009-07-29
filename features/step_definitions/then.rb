@@ -6,6 +6,10 @@ Then /^I should see a.? (.+) text field$/ do |field|
   assert_have_selector "#user_#{field}"
 end
 
+Then /^I should see a.? (.+) checkbox$/ do |field|
+  assert_have_selector "#user_#{field}"
+end
+
 Then /^I should see a submit button$/ do
   assert_have_selector "input[type=image]"
 end

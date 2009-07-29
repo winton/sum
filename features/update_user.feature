@@ -74,3 +74,10 @@ Feature: Update user
     Then I should see a form
     And the email field should have an error
     And the error should be "can't be blank"
+  
+  Scenario: I don't check the terms of service
+    When I visit the front page
+    And submit an empty tos
+    Then I should see a form
+    And the tos field should have an error
+    And the error should be "must be accepted"

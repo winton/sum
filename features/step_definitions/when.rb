@@ -28,7 +28,12 @@ end
 
 When /^submit an empty (.+)$/ do |field|
   fill_all_with_valid_data
-  fill_in "user[#{field.split.first}]", :with => ""
+  case field
+  when 'tos'
+    uncheck "user[#{field}]"
+  else
+    fill_in "user[#{field.split.first}]", :with => ""
+  end
   click_button
 end
 

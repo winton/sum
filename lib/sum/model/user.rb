@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   attr_accessible :income
   attr_accessible :savings
   attr_accessible :timezone_offset
+  attr_accessible :tos
   
   after_create :after_create_email
   before_create :before_create_timestamps
@@ -17,6 +18,15 @@ class User < ActiveRecord::Base
   
   serialize :recent_transactions
   
+  not_saved_from_form = lambda do |r|
+    r.bills.nil? && r.income.nil? && r.savings.nil?
+  end
+  
+  validates_acceptance_of(
+    :tos,
+    :allow_nil => false,
+    :unless => not_saved_from_form
+  )
   validates_format_of(
     :email,
     :with => /\S+@\S+\.\S+/,
@@ -26,7 +36,7 @@ class User < ActiveRecord::Base
     :bills,
     :income,
     :savings,
-    :unless => lambda { |r| r.bills.nil? && r.income.nil? && r.savings.nil? }
+    :unless => not_saved_from_form
   )
   validates_presence_of :email, :unless => lambda { |r| r.email.nil? }
   
@@ -78,14 +88,16 @@ class User < ActiveRecord::Base
   
   # Instance methods
   
-  [ :email, :bills, :income, :savings ].each do |attribute|
+  [ :email, :bills, :income, :savings, :tos ].each do |attribute|
     define_method(attribute) do
       read_attribute attribute
     end
     define_method("#{attribute}=") do |value|
       write_attribute(
         attribute,
-        attribute == :email ? value : to_number(value)
+        attribute == :email || attribute == :tos ?
+          value :
+          to_number(value)
       )
     end
   end

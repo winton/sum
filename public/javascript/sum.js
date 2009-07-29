@@ -6,4 +6,8 @@ jQuery(function($) {
     closeImage: '/image/facebox/closelabel.gif',
     loadingImage: '/image/facebox/loading.gif'
   });
+  $('.checkbox a').click(function(e) {
+    var check = $('.checkbox input');
+    check.attr('checked', !check.attr('checked'));
+  });
 });

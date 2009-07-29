@@ -11,4 +11,5 @@ Feature: Front page
     And I should see an income text field
     And I should see a bills text field
     And I should see an email text field
+    And I should see a tos checkbox
     And I should see a submit button

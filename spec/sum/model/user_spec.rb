@@ -155,6 +155,7 @@ describe User do
         :savings => "500.02",
         :timezone_offset => "-25200",
         :temporary_spending_cut => 5000,
+        :tos => '1',
         :send_at => Time.now.utc
       )
       @user.update_attributes(

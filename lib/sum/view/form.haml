@@ -3,10 +3,11 @@
   %img{ :src => '/image/field_on.png', :style => 'display:none' }
   %input{ :id => "timezone_offset", :name => "user[timezone_offset]", :type => "hidden" }
   
-  = field :savings, "How much do you want to save each month?"
-  = field :income, "How much money do you receive each month?"
-  = field :bills, "How much do you spend on bills each month?"
-  = field :email, "What is your email address?"
+  = field :text, :savings, "How much do you want to save each month?"
+  = field :text, :income, "How much money do you receive each month?"
+  = field :text, :bills, "How much do you spend on bills each month?"
+  = field :text, :email, "What is your email address?"
+  = field :checkbox, :tos, partial(:tos)
   
   .submit
     %input{ :src => '/image/submit.png', :type => 'image' }

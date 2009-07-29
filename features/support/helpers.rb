@@ -7,10 +7,16 @@ def fill_all_with_valid_data(hash={})
     'savings' => '0',
     'income' => '0',
     'bills' => '0',
-    'email' => current_email_address
+    'email' => current_email_address,
+    'tos' => '1'
   }.merge(hash)
   valid.each do |key, value|
-    fill_in "user[#{key}]", :with => value
+    case key
+    when 'tos'
+      check "user[#{key}]"
+    else
+      fill_in "user[#{key}]", :with => value
+    end
   end
 end
 

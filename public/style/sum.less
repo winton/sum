@@ -56,20 +56,32 @@ body, body div, input {
         .h1;
         cursor: pointer;
       }
-
-      input {
-        background-color: @background;
-        background-image: url(/image/field_off.png);
-        border: 0px;
-        display: block;
-        height: 19px;
-        padding: 3px;
-        text-align: center;
-        width: 394px;
+      
+      .checkbox {
+        
+        text-align: left;
+        
+        input {
+          float: left;
+          margin: 2px 10px 50px;
+        }
       }
       
-      input:focus {
-        background-image: url(/image/field_on.png);
+      .text {
+        input {
+          background-color: @background;
+          background-image: url(/image/field_off.png);
+          border: 0px;
+          display: block;
+          height: 19px;
+          padding: 3px;
+          text-align: center;
+          width: 394px;
+        }
+
+        input:focus {
+          background-image: url(/image/field_on.png);
+        }
       }
       
       .validation {
