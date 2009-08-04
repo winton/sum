@@ -1,9 +1,9 @@
 require 'rubygems'
 
 gems = [
-  [ 'haml', '=2.0.9' ],
-  [ 'sinatra', '=0.9.2' ],
-  [ 'winton-active_wrapper', '=0.1.5' ],
+  [ 'haml', '=2.2.2' ],
+  [ 'sinatra', '=0.9.4' ],
+  [ 'winton-active_wrapper', '=0.1.9' ],
   [ 'winton-fetcher', '=0.1.2' ],
   [ 'winton-secret_key', '=0.1.0' ]
 ]
