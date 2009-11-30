@@ -1,13 +1,13 @@
-winton-active_wrapper:
+active_wrapper:
   repo: git@github.com:winton/active_wrapper.git
   path: vendor
 email-spec:
   repo: git://github.com/bmabey/email-spec.git
   path: vendor
-winton-fetcher:
+fetcher:
   repo: git@github.com:winton/fetcher.git
   path: vendor
-winton-secret_key:
+secret_key:
   repo: git@github.com:winton/secret_key.git
   path: vendor
 sinatra:

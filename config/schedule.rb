@@ -10,7 +10,6 @@ require 'secret_key'
 key = SecretKey.new(File.dirname(__FILE__)).read
 
 every 1.minute do
-  puts @environment
   case @environment
   when 'development'
     command "curl http://localhost:#{@port}/cron"

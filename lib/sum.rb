@@ -1,18 +1,18 @@
 require 'rubygems'
 
 gems = [
-  [ 'haml', '=2.2.2' ],
-  [ 'sinatra', '=0.9.4' ],
-  [ 'winton-active_wrapper', '=0.1.9' ],
-  [ 'winton-fetcher', '=0.1.2' ],
-  [ 'winton-secret_key', '=0.1.0' ]
+  [ 'active_wrapper', '=0.2.2' ],
+  [ 'fetcher', '=0.1.2' ],
+  [ 'haml', '=2.2.14' ],
+  [ 'secret_key', '=0.1.0' ],
+  [ 'sinatra', '=0.9.4' ]
 ]
 
 gems.each do |name, version|
-  begin
+  if File.exists?(path = "#{File.dirname(__FILE__)}/../vendor/#{name}/lib")
+    $:.unshift path
+  else
     gem name, version
-  rescue Exception
-    $:.unshift "#{File.dirname(__FILE__)}/../vendor/#{name}/lib"
   end
 end
 

@@ -10,9 +10,9 @@ end
 When /^I submit a valid form with (.+)$/ do |input|
   fill_all_with_valid_data
   values = case input
-  when "decimals":     [ "1000.00", "5000.00", "2000.00" ]
-  when "numbers only": [ "1000", "5000", "2000" ]
-  when "dollar signs": [ "$1000.00", "$5000.00", "$2000.00" ]
+  when "decimals"       then [ "1000.00", "5000.00", "2000.00" ]
+  when "numbers only"   then [ "1000", "5000", "2000" ]
+  when "dollar signs"   then [ "$1000.00", "$5000.00", "$2000.00" ]
   end
   fill_in "user[savings]", :with => values.pop
   fill_in "user[income]", :with => values.pop

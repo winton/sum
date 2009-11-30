@@ -118,7 +118,7 @@ class User < ActiveRecord::Base
   
   # Days in this fiscal month
   def days_in_month
-    self.reset_at.to_date - self.beginning_of_month.to_date
+    (self.reset_at.to_date - self.beginning_of_month.to_date).to_i
   end
   
   # Days left in this fiscal month
@@ -138,7 +138,7 @@ class User < ActiveRecord::Base
   
   # Days passed in this fiscal month, including today
   def days_passed_including_today
-     self.days_passed + 1
+     (self.days_passed + 1).to_i
   end
   
   # Reset spent_today
@@ -199,7 +199,7 @@ class User < ActiveRecord::Base
   
   # How much the user is spending per day (ideally)
   def spending_per_day
-    self.spending_goal / self.days_in_month
+    self.spending_goal / self.days_in_month.to_f
   end
   
   # How much the user has spent this month

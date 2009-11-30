@@ -3,6 +3,11 @@ Sum
 
 A budgeting app built on Sinatra. Use it at [sumapp.com](http://sumapp.com).
 
+Compatibility
+-------------
+
+Sum is actively maintained under Ruby 1.9.1.
+
 The flow
 --------
 
@@ -16,8 +21,7 @@ Development setup
 Install the sum gem for its dependencies:
 
 <pre>
-gem sources -a http://gems.github.com
-sudo gem install winton-sum
+sudo gem install sum --source http://gemcutter.org
 </pre>
 
 Fork the [Sum repository](http://github.com/winton/sum) on [GitHub](http://github.com).
@@ -25,12 +29,6 @@ Fork the [Sum repository](http://github.com/winton/sum) on [GitHub](http://githu
 <pre>
 git clone git@github.com:YOUR_NAME/sum.git
 cd sum
-</pre>
-
-Create your database:
-
-<pre>
-mysql -uroot -e "create database sum;"
 </pre>
 
 Copy and edit the example config files:
@@ -41,10 +39,10 @@ cp config/mail.example.yml config/mail.yml
 mate config/database.yml config/mail.yml
 </pre>
 
-Migrate the database:
+Create and migrate your database:
 
 <pre>
-rake db:migrate
+rake db:create db:migrate
 </pre>
 
 Start the application with shotgun:
@@ -64,6 +62,6 @@ Running the test suite
 Sum uses [Cucumber](http://github.com/aslakhellesoy/cucumber), [Webrat](http://github.com/brynary/webrat), and [email-spec](http://github.com/bmabey/email-spec) for functional tests and [rspec](http://github.com/dchelimsky/rspec) for unit tests:
 
 <pre>
-rake features
-rake spec
+cucumber
+spec .
 </pre>

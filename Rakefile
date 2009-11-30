@@ -1,19 +1,30 @@
 require 'rubygems'
+
+gems = [
+  [ 'active_wrapper', '=0.2.2' ],
+  [ 'cucumber', '=0.4.4' ],
+  [ 'rspec', '=1.2.9' ]
+]
+
+gems.each do |name, version|
+  if File.exists?(path = "#{File.dirname(__FILE__)}/../vendor/#{name}/lib")
+    $:.unshift path
+  else
+    gem name, version
+  end
+end
+
 require 'rake'
+require 'active_wrapper/tasks'
 require 'cucumber/rake/task'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 require 'gemspec'
 
-begin
-  require 'active_wrapper/tasks'
-  
-  ActiveWrapper::Tasks.new(
-    :base => File.dirname(__FILE__),
-    :env => ENV['ENV']
-  )
-rescue Exception
-end
+ActiveWrapper::Tasks.new(
+  :base => File.dirname(__FILE__),
+  :env => ENV['ENV']
+)
 
 desc "Generate gemspec"
 task :gemspec do
