@@ -14,6 +14,6 @@ every 1.minute do
   when 'development'
     command "curl http://localhost:#{@port}/cron"
   else
-    command "curl https://sumapp.com/#{key}"
+    command "curl http://sumapp.com/#{key}"
   end
 end
