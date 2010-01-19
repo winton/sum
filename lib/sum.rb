@@ -1,7 +1,7 @@
 require 'rubygems'
 
 gems = [
-  [ 'active_wrapper', '=0.2.2' ],
+  [ 'active_wrapper', '=0.2.3' ],
   [ 'fetcher', '=0.1.2' ],
   [ 'haml', '=2.2.14' ],
   [ 'secret_key', '=0.1.0' ],

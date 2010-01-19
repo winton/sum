@@ -1,7 +1,7 @@
 require 'rubygems'
 
 gems = [
-  [ 'active_wrapper', '=0.2.2' ],
+  [ 'active_wrapper', '=0.2.3' ],
   [ 'cucumber', '=0.4.4' ],
   [ 'rspec', '=1.2.9' ]
 ]

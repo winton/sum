@@ -21,7 +21,7 @@ GEM_SPEC = Gem::Specification.new do |s|
   s.homepage = "http://github.com/winton/#{GEM_NAME}"
   s.summary = "A simple budgeting app built on Sinatra"
   # == CONFIGURE ==
-  s.add_dependency('active_wrapper', '=0.2.2')
+  s.add_dependency('active_wrapper', '=0.2.3')
   s.add_dependency('email_spec', '=0.3.5')
   s.add_dependency('cucumber', '=0.4.4')
   s.add_dependency('haml', '=2.2.14')
