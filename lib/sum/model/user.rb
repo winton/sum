@@ -285,12 +285,16 @@ class User < ActiveRecord::Base
   end
   
   def update_reset_at
-    self.reset_at = self.reset_at + 1.month
+    while Time.now.utc >= self.reset_at.utc
+      self.reset_at = self.reset_at + 1.month
+    end
   end
   
   def update_send_at
     if self.send_at
-      self.send_at = self.send_at + 1.day
+      while Time.now.utc >= self.send_at.utc
+        self.send_at = self.send_at + 1.day
+      end
     else
       self.send_at = local_12am_to_server_time
     end

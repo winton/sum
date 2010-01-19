@@ -23,7 +23,7 @@ GEM_SPEC = Gem::Specification.new do |s|
   # == CONFIGURE ==
   s.add_dependency('active_wrapper', '=0.2.3')
   s.add_dependency('email_spec', '=0.3.5')
-  s.add_dependency('cucumber', '=0.4.4')
+  s.add_dependency('cucumber', '=0.6.1')
   s.add_dependency('haml', '=2.2.14')
   s.add_dependency('less', '=1.2.17')
   s.add_dependency('whenever', '=0.4.0')

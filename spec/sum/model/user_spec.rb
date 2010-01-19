@@ -52,7 +52,7 @@ describe User do
     before(:all) do
       @user = create_valid_user
       @user.spend!(1500.53)
-      @old_reset_at = @user.reset_at
+      @old_reset_at = @user.reset_at -= 1.month
       @user.reset!
     end
     
@@ -66,6 +66,12 @@ describe User do
     
     it "should add a month to reset_at" do
       @user.reset_at.should == @old_reset_at + 1.month
+    end
+    
+    it "should fix a reset_at that is too old" do
+      @user.reset_at -= 2.months
+      @user.reset!
+      @user.reset_at.should > Time.now
     end
   end
   
@@ -96,6 +102,12 @@ describe User do
     
     it "should add one day to send_at" do
       @user.send_at.should == @old_send_at + 1.day
+    end
+    
+    it "should fix a send_at that is too old" do
+      @user.send_at -= 2.days
+      @user.sent!
+      @user.send_at.should > Time.now
     end
   end
   

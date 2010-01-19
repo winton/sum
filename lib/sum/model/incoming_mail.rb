@@ -2,7 +2,7 @@ class IncomingMail < ActionMailer::Base
   
   class <<self
     def process!
-      if $mail.config
+      unless $testing
         Fetcher.create($mail.config[:imap]).fetch
       end
     end

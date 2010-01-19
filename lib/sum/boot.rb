@@ -18,7 +18,7 @@ Application.class_eval do
     :stdout => environment != :test
   )
   $db.establish_connection
-  if $mail.config
+  if environment == :production
     ActionMailer::Base.raise_delivery_errors = true
     imap = { :receiver => IncomingMail, :type => :imap }
     $mail.config[:imap].merge!(imap)
